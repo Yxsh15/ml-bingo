@@ -131,6 +131,255 @@
                 </p>
             </section>
 
+            <section id="event-structure" class="bg-white p-8 rounded-2xl shadow-md">
+                <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-6">Event Structure: Organizer + Participant Perspectives</h2>
+                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">
+                    This event is meticulously designed to provide a rich learning experience from both the organizer's setup and the participant's journey, ensuring seamless interaction and effective knowledge transfer.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-[#0A2463] mb-4">Participant View: The Experience</h3>
+                        <p class="text-gray-600 mb-4">
+                            Participants are handed a Google Colab Notebook containing:
+                        </p>
+                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
+                            <li>A mystery dataset with partial/noisy column names and decoy data</li>
+                            <li>A Bingo Grid of ML micro-tasks (e.g., normalization, encoding, train-test split)</li>
+                            <li>Submission guidelines and scratchpad space</li>
+                        </ul>
+                        <p class="text-gray-600 mb-2">Their mission:</p>
+                        <ul class="list-disc list-inside text-gray-600 ml-4">
+                            <li>Solve rows/columns in the Bingo Grid to score points</li>
+                            <li>Simultaneously deduce the purpose of the dataset</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-[#0A2463] mb-4">Examples of How Solving Tasks Unveils Dataset Clues</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white rounded-lg shadow-sm text-sm">
+                                <thead class="bg-[#0A2463] text-white">
+                                    <tr>
+                                        <th class="py-3 px-4 text-left">Bingo Task</th>
+                                        <th class="py-3 px-4 text-left">How It Reveals Clues</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-700">
+                                    <tr class="border-b border-gray-200">
+                                        <td class="py-3 px-4">Normalize numerical columns</td>
+                                        <td class="py-3 px-4">Highlights which values (e.g., income or age) are skewed or unusually spread</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200">
+                                        <td class="py-3 px-4">One-hot encode categorical</td>
+                                        <td class="py-3 px-4">Helps interpret hidden meaning behind labels like “B” (e.g., gender, location)</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200">
+                                        <td class="py-3 px-4">Correlation matrix</td>
+                                        <td class="py-3 px-4">Exposes which features are tied to the target column (e.g., “E”)</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200">
+                                        <td class="py-3 px-4">Find columns with high missing values</td>
+                                        <td class="py-3 px-4">Suggests unreliable features or noise (decoy detection)</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200">
+                                        <td class="py-3 px-4">Logistic Regression or Decision Tree</td>
+                                        <td class="py-3 px-4">Shows what features are most predictive of outcome — gives hints to purpose</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200">
+                                        <td class="py-3 px-4">Drop low-importance features</td>
+                                        <td class="py-3 px-4">Forces participants to filter out decoys and irrelevant data</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 px-4">Confusion Matrix</td>
+                                        <td class="py-3 px-4">Tells if the dataset is classifying something — like spam vs. not spam, or loan approved vs. denied</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-gray-600 mt-4 font-semibold">Example Outcome:</p>
+                        <p class="text-gray-600 mb-2">After solving half the Bingo grid, a team notices:</p>
+                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
+                            <li>Column “E” is predictable from income, loan status, and age</li>
+                            <li>Columns “F”, “G” and “H” don’t improve model accuracy</li>
+                        </ul>
+                        <p class="text-gray-600 font-semibold">They reason:</p>
+                        <p class="text-gray-600 italic">“This is likely a loan approval prediction dataset where we're predicting whether a user gets a loan based on demographics and income.”</p>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-gray-200">
+                    <h3 class="text-2xl font-bold text-[#0A2463] mb-4 text-center">Organizer View: Flow & Facilitation</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Setup Checklist:</h4>
+                            <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
+                                <li>1x Colab template with markdown instructions and bingo grid cells</li>
+                                <li>1-2 noisy CSVs per team (different themes optional)</li>
+                                <li>Pre-filled cells for loading data and starter guidance</li>
+                                <li>Google Forms for registration and submission</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Organizer Goals:</h4>
+                            <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
+                                <li>Make sure each task gradually reveals insights about the dataset</li>
+                                <li>Decoys should be misleading but fair (not impossible to eliminate)</li>
+                                <li>Reward not just speed, but reasoning clarity in final answers</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h4 class="text-xl font-semibold text-[#0A2463] mb-2 mt-4 text-center">Example Organizer Tips:</h4>
+                    <ul class="list-disc list-inside text-gray-600 mb-4 ml-4 text-center mx-auto max-w-2xl">
+                        <li>Include optional hints for penalty points (e.g., “Column F is junk”)</li>
+                        <li>Track common patterns in submissions to guide feedback</li>
+                        <li>Scorecards should award: Task completion, Accuracy of use-case guess, Explanation depth</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="participant-journey" class="bg-white p-8 rounded-2xl shadow-md">
+                <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-6">🔍 Participant Journey: Step-by-Step Tactics & Learning Gains</h2>
+                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">
+                    This section delves deeper into the practical strategies participants employ and the invaluable machine learning understanding they gain at each phase of the "Data Detectives & ML Bingo" challenge.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">🧭 1. First Contact with the Dataset</h3>
+                        <p class="text-gray-600 mb-3">Upon opening the Colab notebook, participants encounter:</p>
+                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
+                            <li>A dataset with cryptic column names (e.g., A, B, C)</li>
+                            <li>A few clearly noisy or irrelevant columns (e.g., uniform values, random strings)</li>
+                            <li>A Bingo grid of foundational ML tasks</li>
+                        </ul>
+                        <p class="font-semibold text-[#0A2463] mb-2">What They Do:</p>
+                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
+                            <li>Scan data types and distributions using `.info()`, `.describe()`, `.value_counts()`</li>
+                            <li>Try basic visualizations (histograms, pairplots) to spot patterns</li>
+                        </ul>
+                        <p class="font-semibold text-[#0A2463] mb-2">What They Learn:</p>
+                        <ul class="list-disc list-inside text-gray-600 ml-4">
+                            <li>✅ How to profile a dataset from scratch</li>
+                            <li>✅ The importance of data types, nulls, and variance</li>
+                            <li>✅ Early exposure to data noise and real-world messiness</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-indigo-50 p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">🎯 2. Tackling Initial Bingo Tasks</h3>
+                        <p class="text-gray-600 mb-3">They begin solving tasks like:</p>
+                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
+                            <li>Normalization: Scaling numerical columns to a 0–1 range</li>
+                            <li>One-hot encoding: Transforming hidden categorical columns</li>
+                            <li>Missing values: Identifying incomplete or unhelpful columns</li>
+                        </ul>
+                        <p class="font-semibold text-[#0A2463] mb-2">What They Do:</p>
+                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
+                            <li>Use `MinMaxScaler`, `pd.get_dummies()`, `.isnull().sum()`</li>
+                            <li>Drop, impute, or highlight problematic columns</li>
+                        </ul>
+                        <p class="font-semibold text-[#0A2463] mb-2">What They Learn:</p>
+                        <ul class="list-disc list-inside text-gray-600 ml-4">
+                            <li>✅ Preprocessing essentials</li>
+                            <li>✅ Importance of clean inputs for ML</li>
+                            <li>✅ Detecting and ignoring decoy data — a key skill in real projects</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-red-50 p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">🧪 3. Experimentation & Exploration</h3>
+                        <p class="text-gray-600 mb-3">As they progress:</p>
+                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
+                            <li>They try creating correlation heatmaps to identify predictive links</li>
+                            <li>Attempt simple Logistic Regression or Decision Tree models</li>
+                            <li>Evaluate model using confusion matrix, accuracy score, etc.</li>
+                        </ul>
+                        <p class="font-semibold text-[#0A2463] mb-2">What They Do:</p>
+                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
+                            <li>Test if feature A or C helps predict label E</li>
+                            <li>Remove low-importance columns</li>
+                            <li>Adjust splits and re-test</li>
+                        </ul>
+                        <p class="font-semibold text-[#0A2463] mb-2">What They Learn:</p>
+                        <ul class="list-disc list-inside text-gray-600 ml-4">
+                            <li>✅ Role of feature importance in modeling</li>
+                            <li>✅ How model metrics reflect data quality and relevance</li>
+                            <li>✅ That data science involves iterative hypothesis testing</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">🔐 4. Cracking the Dataset Mystery</h3>
+                        <p class="text-gray-600 mb-3">Through this process, participants begin connecting dots:</p>
+                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
+                            <li>"Column A might be income — values are in lakhs"</li>
+                            <li>"Column E must be binary — our classifier works well on it"</li>
+                            <li>"Decoy column F has no variance — safe to ignore"</li>
+                        </ul>
+                        <p class="font-semibold text-[#0A2463] mb-2">They now write a reasoned guess:</p>
+                        <p class="text-gray-600 italic mb-4">“We believe this is a loan approval dataset where income, job type, and credit score predict whether a loan is granted (column E).”</p>
+                        <p class="font-semibold text-[#0A2463] mb-2">What They Learn:</p>
+                        <ul class="list-disc list-inside text-gray-600 ml-4">
+                            <li>✅ Data storytelling — making sense of raw numbers</li>
+                            <li>✅ How ML isn't just coding, but also interpretation</li>
+                            <li>✅ Confidence in drawing conclusions from ambiguous data</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-indigo-50 p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">🧠 5. Reflection & Team Learning</h3>
+                        <p class="text-gray-600 mb-3">At the end, teams submit:</p>
+                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
+                            <li>Their completed notebook</li>
+                            <li>Reasoning behind dataset purpose</li>
+                            <li>Any insights or challenges faced</li>
+                        </ul>
+                        <p class="text-gray-600 mb-2">Some teams may be right, others partially right, but all will have:</p>
+                        <ul class="list-disc list-inside text-gray-600 ml-4">
+                            <li>✅ Practiced the full ML lifecycle — from loading data to drawing conclusions</li>
+                            <li>✅ Learned to collaborate under uncertainty</li>
+                            <li>✅ Built intuition about datasets through structured exploration</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-gray-200">
+                    <h3 class="text-2xl font-bold text-center text-[#0A2463] mb-4">📈 Benefits in Summary (For Participants)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white rounded-lg shadow-sm text-sm">
+                            <thead class="bg-[#0A2463] text-white">
+                                <tr>
+                                    <th class="py-3 px-4 text-left">Skill Gained</th>
+                                    <th class="py-3 px-4 text-left">How the Event Teaches It</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-700">
+                                <tr class="border-b border-gray-200">
+                                    <td class="py-3 px-4">Data Cleaning</td>
+                                    <td class="py-3 px-4">Tasks like missing value imputation, normalization</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="py-3 px-4">Feature Engineering</td>
+                                    <td class="py-3 px-4">Encoding, correlation analysis, dropping decoys</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="py-3 px-4">Model Thinking</td>
+                                    <td class="py-3 px-4">Training simple classifiers, understanding results</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="py-3 px-4">Data Intuition</td>
+                                    <td class="py-3 px-4">Making sense of anonymized columns, decoding structure</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4">Collaboration</td>
+                                    <td class="py-3 px-4">Team-based problem solving and submission</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
             <section id="colab" class="bg-[#0A2463] text-white p-8 rounded-2xl shadow-lg">
                 <h2 class="text-3xl font-bold text-center mb-6">The Powerhouse Platform: Google Colab</h2>
                 <p class="max-w-3xl mx-auto text-center text-gray-200 mb-10">
@@ -208,6 +457,46 @@
                         <h3 class="font-bold mt-3 text-lg text-[#0A2463]">Best Report</h3>
                         <p class="text-sm text-gray-500">Honors the clearest and most concise explanation of the dataset.</p>
                     </div>
+                </div>
+            </section>
+
+            <section id="final-summary" class="bg-white p-8 rounded-2xl shadow-md">
+                <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-6">Final Summary: A Unified Vision</h2>
+                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">
+                    The "Data Detectives & ML Bingo" event seamlessly integrates learning and discovery, offering a unique and effective approach to introduce participants to the world of machine learning and data analysis.
+                </p>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white rounded-lg shadow-sm text-sm">
+                        <thead class="bg-[#0A2463] text-white">
+                            <tr>
+                                <th class="py-3 px-4 text-left">Aspect</th>
+                                <th class="py-3 px-4 text-left">Organizer Focus</th>
+                                <th class="py-3 px-4 text-left">Participant Benefit</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-700">
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Bingo Tasks</td>
+                                <td class="py-3 px-4">Ensure coverage of ML basics</td>
+                                <td class="py-3 px-4">Learn step-by-step coding concepts</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Mystery Dataset</td>
+                                <td class="py-3 px-4">Embed decoys & hints cleverly</td>
+                                <td class="py-3 px-4">Build intuition by discovery</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="py-3 px-4">Submission Format</td>
+                                <td class="py-3 px-4">Easy via Colab & Forms</td>
+                                <td class="py-3 px-4">No setup hassle, focus on logic</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4">Evaluation</td>
+                                <td class="py-3 px-4">Reasoning + Completion</td>
+                                <td class="py-3 px-4">Encourages depth over speed</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
         </div>
