@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Bingo: Detectives Edition - Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .flow-arrow {
+            font-size: 2.5rem;
+            line-height: 1;
+            color: #3E92CC;
+            transform: rotate(90deg);
+        }
+        @media (min-width: 768px) {
+            .flow-arrow {
+                transform: rotate(0deg);
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-[#0A2463] text-white text-center p-8 md:p-12 shadow-lg">
+        <h1 class="text-4xl md:text-6xl font-black tracking-tight">ML Bingo: Detectives Edition</h1>
+        <p class="mt-4 text-lg md:text-xl max-w-3xl mx-auto text-gray-200">Uncover the truth, one cell at a time. A gamified challenge designed to make data science accessible, intuitive, and fun for everyone.</p>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="grid grid-cols-1 gap-8">
+
+            <section id="intro" class="text-center bg-white p-8 rounded-2xl shadow-md">
+                <h2 class="text-3xl font-bold text-[#0A2463] mb-4">A Synergistic Learning Experience</h2>
+                <p class="max-w-4xl mx-auto text-gray-600 mb-8">
+                    This event masterfully fuses the intrigue of a dataset mystery with the accessible, gamified format of Bingo. Participants solve bite-sized ML tasks to unlock clues, transforming abstract exercises into a purposeful investigation and lowering the barrier to entry for data science.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-blue-50 p-6 rounded-xl">
+                        <div class="text-6xl font-black text-[#3E92CC]">90</div>
+                        <p class="mt-2 font-semibold text-lg text-[#0A2463]">Minute Challenge</p>
+                        <p class="text-sm text-gray-500">An intense, focused, and rewarding time-bound event.</p>
+                    </div>
+                    <div class="bg-red-50 p-6 rounded-xl">
+                        <div class="text-6xl font-black text-[#D8315B]">100%</div>
+                        <p class="mt-2 font-semibold text-lg text-[#0A2463]">Beginner Friendly</p>
+                        <p class="text-sm text-gray-500">No complex setups required, open to all skill levels.</p>
+                    </div>
+                    <div class="bg-indigo-50 p-6 rounded-xl">
+                        <div class="text-6xl font-black text-[#0A2463]">2-3</div>
+                        <p class="mt-2 font-semibold text-lg text-[#0A2463]">Members Per Team</p>
+                        <p class="text-sm text-gray-500">Fostering collaboration, teamwork, and peer learning.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="blueprint" class="bg-white p-8 rounded-2xl shadow-md">
+                <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-6">The Challenge Blueprint</h2>
+                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-10">
+                    The event is built on a simple yet powerful two-part structure. Participants engage with a task grid to gain insights, which they then use to solve an overarching mystery, creating a cohesive and compelling narrative.
+                </p>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
+                    <div class="text-center p-6 border-2 border-dashed border-gray-300 rounded-lg w-full md:w-1/3">
+                        <div class="text-5xl mb-2">🧩</div>
+                        <h3 class="text-xl font-bold text-[#0A2463]">Part 1: The Bingo Grid</h3>
+                        <p class="text-gray-600 mt-2">A 5x5 grid of micro-tasks covering data cleaning, visualization, and ML concepts.</p>
+                    </div>
+                    <div class="flow-arrow font-thin">→</div>
+                    <div class="text-center p-6 border-2 border-dashed border-gray-300 rounded-lg w-full md:w-1/3">
+                        <div class="text-5xl mb-2">🕵️</div>
+                        <h3 class="text-xl font-bold text-[#0A2463]">Part 2: The Dataset Mystery</h3>
+                        <p class="text-gray-600 mt-2">Use clues from the grid to deduce the real-world meaning of an anonymized dataset.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="detective-journey" class="bg-white p-8 rounded-2xl shadow-md">
+                <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-6">The Detective's Journey: Unveiling the Dataset Mystery</h2>
+                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-10">
+                    Each completed Bingo task is more than just a solved problem; it's a crucial piece of evidence in your data investigation. Teams will piece together these insights, moving from raw data to a clear understanding of the dataset's true nature.
+                </p>
+                <div class="flex flex-col items-center justify-center gap-6">
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 w-full">
+                        <div class="text-center p-4 bg-blue-50 rounded-lg shadow-sm w-full md:w-1/4">
+                            <div class="text-4xl mb-1">✅</div>
+                            <h3 class="font-semibold text-lg text-[#0A2463]">Bingo Task</h3>
+                            <p class="text-sm text-gray-600">e.g., "Identify Data Types"</p>
+                        </div>
+                        <div class="flow-arrow font-thin">→</div>
+                        <div class="text-center p-4 bg-indigo-50 rounded-lg shadow-sm w-full md:w-1/4">
+                            <div class="text-4xl mb-1">💡</div>
+                            <h3 class="font-semibold text-lg text-[#0A2463]">Data Insight</h3>
+                            <p class="text-sm text-gray-600">"Column 'X' is numerical, 'Y' is categorical."</p>
+                        </div>
+                        <div class="flow-arrow font-thin">→</div>
+                        <div class="text-center p-4 bg-red-50 rounded-lg shadow-sm w-full md:w-1/4">
+                            <div class="text-4xl mb-1">🔍</div>
+                            <h3 class="font-semibold text-lg text-[#0A2463]">Dataset Clue</h3>
+                            <p class="text-sm text-gray-600">"These types suggest a survey or transactional data."</p>
+                        </div>
+                    </div>
+                    <div class="text-center p-4 bg-green-50 rounded-lg shadow-sm w-full md:w-1/4">
+                        <div class="text-4xl mb-1">🔓</div>
+                        <h3 class="font-semibold text-lg text-[#0A2463]">Mystery Solved!</h3>
+                        <p class="text-sm text-gray-600">"The dataset is about customer churn prediction!"</p>
+                    </div>
+                </div>
+                <p class="max-w-3xl mx-auto text-center text-gray-600 mt-8">
+                    By systematically completing tasks like identifying missing values, plotting distributions, or calculating statistics, teams build a comprehensive profile of the dataset. This iterative process of discovery allows them to infer variable meanings, potential biases, and ultimately, the real-world context and purpose of the anonymized data.
+                </p>
+            </section>
+
+            <section id="colab" class="bg-[#0A2463] text-white p-8 rounded-2xl shadow-lg">
+                <h2 class="text-3xl font-bold text-center mb-6">The Powerhouse Platform: Google Colab</h2>
+                <p class="max-w-3xl mx-auto text-center text-gray-200 mb-10">
+                    Google Colab is the game-changer that makes this event possible, eliminating technical barriers and fostering a seamless, collaborative learning environment.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                    <div class="bg-white/10 p-6 rounded-lg">
+                        <div class="text-5xl">🚀</div>
+                        <h3 class="font-bold mt-3">Zero Setup</h3>
+                        <p class="text-sm text-gray-300">No installation needed. Everything runs in the browser.</p>
+                    </div>
+                    <div class="bg-white/10 p-6 rounded-lg">
+                        <div class="text-5xl">📚</div>
+                        <h3 class="font-bold mt-3">Libraries Included</h3>
+                        <p class="text-sm text-gray-300">Pandas, NumPy, and Matplotlib are pre-installed and ready.</p>
+                    </div>
+                    <div class="bg-white/10 p-6 rounded-lg">
+                        <div class="text-5xl">☁️</div>
+                        <h3 class="font-bold mt-3">Cloud-Based</h3>
+                        <p class="text-sm text-gray-300">Work is saved automatically. No fear of losing progress.</p>
+                    </div>
+                    <div class="bg-white/10 p-6 rounded-lg">
+                        <div class="text-5xl">👥</div>
+                        <h3 class="font-bold mt-3">Real-Time Collab</h3>
+                        <p class="text-sm text-gray-300">Teams work on the same notebook simultaneously.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <section id="tasks" class="bg-white p-8 rounded-2xl shadow-md">
+                    <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-4">Deconstructing the Bingo Grid</h2>
+                    <p class="text-center text-gray-600 mb-6">
+                        The Bingo grid is designed to build a holistic skillset. Tasks are balanced across practical coding, conceptual understanding, and data visualization to ensure a comprehensive learning experience.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="taskDistributionChart"></canvas>
+                    </div>
+                </section>
+
+                <section id="scoring" class="bg-white p-8 rounded-2xl shadow-md">
+                    <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-4">The Path to Victory</h2>
+                     <p class="text-center text-gray-600 mb-6">
+                        Success isn't just about speed. The scoring system rewards a blend of task completion, analytical depth, and creative thinking, encouraging a well-rounded approach to problem-solving.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="scoringChart"></canvas>
+                    </div>
+                </section>
+            </div>
+
+            <section id="prizes" class="bg-white p-8 rounded-2xl shadow-md">
+                <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-6">Celebrating Every Skill</h2>
+                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-10">
+                    To foster intrinsic motivation and celebrate the multifaceted nature of data science, recognition is given for a variety of achievements, ensuring everyone has a chance to shine.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                    <div class="p-6">
+                        <div class="text-5xl">🏆</div>
+                        <h3 class="font-bold mt-3 text-lg text-[#0A2463]">Bingo Boss</h3>
+                        <p class="text-sm text-gray-500">First to complete a valid row/column and submit a correct guess.</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-5xl">🕵️</div>
+                        <h3 class="font-bold mt-3 text-lg text-[#0A2463]">Sharpest Detective</h3>
+                        <p class="text-sm text-gray-500">Recognizes the most accurate and insightful dataset guess.</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-5xl">🎨</div>
+                        <h3 class="font-bold mt-3 text-lg text-[#0A2463]">Best EDA Visuals</h3>
+                        <p class="text-sm text-gray-500">Celebrates the most creative, clear, and useful graphs.</p>
+                    </div >
+                    <div class="p-6">
+                        <div class="text-5xl">📝</div>
+                        <h3 class="font-bold mt-3 text-lg text-[#0A2463]">Best Report</h3>
+                        <p class="text-sm text-gray-500">Honors the clearest and most concise explanation of the dataset.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 mt-8 bg-gray-200">
+        <p class="text-sm text-gray-600">An infographic inspired by the "Data Detectives & ML Bingo" event concept.</p>
+    </footer>
+
+    <script>
+        const tooltipCallback = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            } else {
+                                return label;
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        };
+
+        const taskCtx = document.getElementById('taskDistributionChart').getContext('2d');
+        new Chart(taskCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Data Cleaning & Preprocessing', 'Exploratory Data Analysis (EDA)', ['Theoretical', 'Understanding'], 'Data Visualization'],
+                datasets: [{
+                    label: 'Task Distribution',
+                    data: [40, 25, 15, 20],
+                    backgroundColor: [
+                        '#3E92CC',
+                        '#0A2463',
+                        '#D8315B',
+                        '#5C8F94'
+                    ],
+                    borderColor: '#F8F9FA',
+                    borderWidth: 4,
+                    hoverOffset: 8
+                }]
+            },
+            options: {
+                ...tooltipCallback,
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '60%',
+            }
+        });
+
+        const scoringCtx = document.getElementById('scoringChart').getContext('2d');
+        new Chart(scoringCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Bingo Completion', 'Dataset Deduction', 'Analytical Depth', ['Optional Model', 'Implementation'], 'Creativity'],
+                datasets: [{
+                    label: 'Points Awarded',
+                    data: [30, 30, 20, 10, 10],
+                    backgroundColor: [
+                        '#3E92CC',
+                        '#0A2463',
+                        '#3E92CC',
+                        '#D8315B',
+                        '#D8315B'
+                    ],
+                    borderRadius: 8,
+                    barThickness: 'flex',
+                    maxBarThickness: 50,
+                }]
+            },
+            options: {
+                ...tooltipCallback,
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: {
+                            display: false,
+                            drawBorder: false,
+                        },
+                        ticks: {
+                            font: {
+                                size: 14,
+                                weight: '600'
+                            }
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false,
+                            drawBorder: false,
+                        },
+                        ticks: {
+                            font: {
+                                size: 14,
+                                weight: '600'
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    ...tooltipCallback.plugins,
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
