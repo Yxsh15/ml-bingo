@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ML Bingo: Detectives Edition - Infographic</title>
+    <title>Data Detectives & ML Bingo: The Discovery Challenge</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,26 +12,26 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F8F9FA;
+            background-color: #F8F9FA; /* Light Gray */
         }
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 500px;
+            max-width: 500px; /* Adjusted max-width as per new UI */
             margin-left: auto;
             margin-right: auto;
-            height: 320px;
+            height: 320px; /* Adjusted height as per new UI */
             max-height: 400px;
         }
         @media (min-width: 768px) {
             .chart-container {
-                height: 400px;
+                height: 400px; /* Adjusted height as per new UI */
             }
         }
         .flow-arrow {
             font-size: 2.5rem;
             line-height: 1;
-            color: #3E92CC;
+            color: #3E92CC; /* Medium Blue */
             transform: rotate(90deg);
         }
         @media (min-width: 768px) {
@@ -39,13 +39,34 @@
                 transform: rotate(0deg);
             }
         }
+        .github-folder {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .github-folder::before {
+            content: '📁';
+            position: absolute;
+            left: 0;
+            top: 0.25rem;
+        }
+        .github-file {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .github-file::before {
+            content: '📄';
+            position: absolute;
+            left: 0;
+            top: 0.25rem;
+        }
     </style>
 </head>
 <body class="text-gray-800">
 
     <header class="bg-[#0A2463] text-white text-center p-8 md:p-12 shadow-lg">
-        <h1 class="text-4xl md:text-6xl font-black tracking-tight">ML Bingo: Detectives Edition</h1>
-        <p class="mt-4 text-lg md:text-xl max-w-3xl mx-auto text-gray-200">Uncover the truth, one cell at a time. A gamified challenge designed to make data science accessible, intuitive, and fun for everyone.</p>
+        <h1 class="text-4xl md:text-6xl font-black tracking-tight">Data Detectives & ML Bingo: The Discovery Challenge</h1>
+        <p class="mt-4 text-lg md:text-xl max-w-3xl mx-auto text-gray-200">Organized By: [Your Tech Club Name]</p>
+        <p class="mt-2 text-base md:text-lg text-gray-300">Online, Beginner-Friendly, Collaborative ML Exploration</p>
     </header>
 
     <main class="container mx-auto p-4 md:p-8">
@@ -56,18 +77,23 @@
                 <p class="max-w-4xl mx-auto text-gray-600 mb-8">
                     This event masterfully fuses the intrigue of a dataset mystery with the accessible, gamified format of Bingo. Participants solve bite-sized ML tasks to unlock clues, transforming abstract exercises into a purposeful investigation and lowering the barrier to entry for data science.
                 </p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="bg-blue-50 p-6 rounded-xl">
-                        <div class="text-6xl font-black text-[#3E92CC]">90</div>
-                        <p class="mt-2 font-semibold text-lg text-[#0A2463]">Minute Challenge</p>
-                        <p class="text-sm text-gray-500">An intense, focused, and rewarding time-bound event.</p>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 justify-center items-center">
+                    <div class="bg-blue-50 p-6 rounded-xl md:col-span-1">
+                        <div class="text-6xl font-black text-[#3E92CC]">3</div>
+                        <p class="mt-2 font-semibold text-lg text-[#0A2463]">Days Event</p>
+                        <p class="text-sm text-gray-500">The challenge spans multiple days for in-depth exploration.</p>
                     </div>
-                    <div class="bg-red-50 p-6 rounded-xl">
+                    <div class="bg-blue-50 p-6 rounded-xl md:col-span-1">
+                        <div class="text-6xl font-black text-[#3E92CC]">3</div>
+                        <p class="mt-2 font-semibold text-lg text-[#0A2463]">Hours Daily</p>
+                        <p class="text-sm text-gray-500">An intense, focused, and rewarding time-bound session each day.</p>
+                    </div>
+                    <div class="bg-red-50 p-6 rounded-xl md:col-span-1">
                         <div class="text-6xl font-black text-[#D8315B]">100%</div>
                         <p class="mt-2 font-semibold text-lg text-[#0A2463]">Beginner Friendly</p>
                         <p class="text-sm text-gray-500">No complex setups required, open to all skill levels.</p>
                     </div>
-                    <div class="bg-indigo-50 p-6 rounded-xl">
+                    <div class="bg-indigo-50 p-6 rounded-xl md:col-span-1">
                         <div class="text-6xl font-black text-[#0A2463]">2-3</div>
                         <p class="mt-2 font-semibold text-lg text-[#0A2463]">Members Per Team</p>
                         <p class="text-sm text-gray-500">Fostering collaboration, teamwork, and peer learning.</p>
@@ -129,6 +155,58 @@
                 <p class="max-w-3xl mx-auto text-center text-gray-600 mt-8">
                     By systematically completing tasks like identifying missing values, plotting distributions, or calculating statistics, teams build a comprehensive profile of the dataset. This iterative process of discovery allows them to infer variable meanings, potential biases, and ultimately, the real-world context and purpose of the anonymized data.
                 </p>
+
+                <div class="mt-8 pt-8 border-t border-gray-200">
+                    <h3 class="text-2xl font-bold text-[#0A2463] mb-4 text-center">Examples of How Solving Tasks Unveils Dataset Clues</h3>
+                    <div class="overflow-x-auto mb-8">
+                        <table class="min-w-full bg-white rounded-lg shadow-sm text-sm">
+                            <thead class="bg-[#0A2463] text-white">
+                                <tr>
+                                    <th class="py-3 px-4 text-left whitespace-nowrap">Bingo Task</th>
+                                    <th class="py-3 px-4 text-left whitespace-nowrap">How It Reveals Clues</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-700">
+                                <tr class="border-b border-gray-200">
+                                    <td class="py-3 px-4 whitespace-nowrap">Normalize numerical columns</td>
+                                    <td class="py-3 px-4">Highlights which values (e.g., income or age) are skewed or unusually spread</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="py-3 px-4 whitespace-nowrap">One-hot encode categorical</td>
+                                    <td class="py-3 px-4">Helps interpret hidden meaning behind labels like “B” (e.g., gender, location)</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="py-3 px-4 whitespace-nowrap">Correlation matrix</td>
+                                    <td class="py-3 px-4">Exposes which features are tied to the target column (e.g., “E”)</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="py-3 px-4 whitespace-nowrap">Find columns with high missing values</td>
+                                    <td class="py-3 px-4">Suggests unreliable features or noise (decoy detection)</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="py-3 px-4 whitespace-nowrap">Logistic Regression or Decision Tree</td>
+                                    <td class="py-3 px-4">Shows what features are most predictive of outcome — gives hints to purpose</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="py-3 px-4 whitespace-nowrap">Drop low-importance features</td>
+                                    <td class="py-3 px-4">Forces participants to filter out decoys and irrelevant data</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 whitespace-nowrap">Confusion Matrix</td>
+                                    <td class="py-3 px-4">Tells if the dataset is classifying something — like spam vs. not spam, or loan approved vs. denied</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-gray-600 mt-4 font-semibold">Example Outcome:</p>
+                    <p class="text-gray-600 mb-2">After solving half the Bingo grid, a team notices:</p>
+                    <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
+                        <li>Column “E” is predictable from income, loan status, and age</li>
+                        <li>Columns “F”, “G” and “H” don’t improve model accuracy</li>
+                    </ul>
+                    <p class="text-gray-600 font-semibold">They reason:</p>
+                    <p class="text-gray-600 italic">“This is likely a loan approval prediction dataset where we're predicting whether a user gets a loan based on demographics and income.”</p>
+                </div>
             </section>
 
             <section id="event-structure" class="bg-white p-8 rounded-2xl shadow-md">
@@ -155,91 +233,273 @@
                         </ul>
                     </div>
                     <div>
-                        <h3 class="text-2xl font-bold text-[#0A2463] mb-4">Examples of How Solving Tasks Unveils Dataset Clues</h3>
+                        <h3 class="text-2xl font-bold text-[#0A2463] mb-4">Organizer View: Flow & Facilitation</h3>
+                        <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Setup Checklist:</h4>
+                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
+                            <li>1x Colab template with markdown instructions and bingo grid cells</li>
+                            <li>1-2 noisy CSVs per team (different themes optional)</li>
+                            <li>Pre-filled cells for loading data and starter guidance</li>
+                            <li>Google Forms for registration and submission</li>
+                        </ul>
+                        <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Organizer Goals:</h4>
+                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
+                            <li>Make sure each task gradually reveals insights about the dataset</li>
+                            <li>Decoys should be misleading but fair (not impossible to eliminate)</li>
+                            <li>Reward not just speed, but reasoning clarity in final answers</li>
+                        </ul>
+                    </div>
+                </div>
+                <h4 class="text-xl font-semibold text-[#0A2463] mb-2 mt-4 text-center">Example Organizer Tips:</h4>
+                <ul class="list-disc list-inside text-gray-600 mb-4 ml-4 text-center mx-auto max-w-2xl">
+                    <li>Include optional hints for penalty points (e.g., “Column F is junk”)</li>
+                    <li>Track common patterns in submissions to guide feedback</li>
+                    <li>Scorecards should award: Task completion, Accuracy of use-case guess, Explanation depth</li>
+                </ul>
+            </section>
+
+            <section id="daily-journey" class="my-16">
+                <h2 class="text-3xl font-bold text-center mb-12 text-[#0A2463]">🗺️ Your 3-Day Discovery Journey</h2>
+                <p class="text-lg text-center max-w-3xl mx-auto text-gray-600 mb-12">
+                    Each day brings a new set of challenges and deeper insights into the mystery dataset. Progress through the days to unlock the full story!
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Day 1 Card -->
+                    <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-full">
+                        <h3 class="text-2xl font-bold text-[#0A2463] mb-4 text-center">Day 1: Warmup Challenge</h3>
+                        <p class="text-gray-600 mb-4 flex-grow">
+                            Focus on basic data exploration tasks on a mystery dataset (e.g., `mystery_data_v1.csv`). Start forming a mental model of what the data could represent.
+                        </p>
+                        <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Sample Bingo Tasks:</h4>
+                        <ul class="list-disc list-inside text-gray-600 mb-4">
+                            <li>Total & Avg of Numeric Column</li>
+                            <li>Histogram of Numeric Column</li>
+                            <li>Count per Categorical Column</li>
+                            <li>Plot Numeric over Index</li>
+                            <li>Check for Missing Values</li>
+                        </ul>
+                        <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Day 1 Dataset Legend:</h4>
                         <div class="overflow-x-auto">
-                            <table class="min-w-full bg-white rounded-lg shadow-sm text-sm">
-                                <thead class="bg-[#0A2463] text-white">
+                            <table class="w-full text-sm text-left text-gray-600 mb-4">
+                                <thead class="text-xs text-gray-700 uppercase bg-blue-50">
                                     <tr>
-                                        <th class="py-3 px-4 text-left">Bingo Task</th>
-                                        <th class="py-3 px-4 text-left">How It Reveals Clues</th>
+                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Column Name</th>
+                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Type</th>
+                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Purpose</th>
                                     </tr>
                                 </thead>
-                                <tbody class="text-gray-700">
-                                    <tr class="border-b border-gray-200">
-                                        <td class="py-3 px-4">Normalize numerical columns</td>
-                                        <td class="py-3 px-4">Highlights which values (e.g., income or age) are skewed or unusually spread</td>
+                                <tbody>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <td class="px-2 py-1 whitespace-nowrap">feature_A</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Numeric</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Continuous, can show skew</td>
                                     </tr>
-                                    <tr class="border-b border-gray-200">
-                                        <td class="py-3 px-4">One-hot encode categorical</td>
-                                        <td class="py-3 px-4">Helps interpret hidden meaning behind labels like “B” (e.g., gender, location)</td>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <td class="px-2 py-1 whitespace-nowrap">feature_B</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Categorical</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Grouping label</td>
                                     </tr>
-                                    <tr class="border-b border-gray-200">
-                                        <td class="py-3 px-4">Correlation matrix</td>
-                                        <td class="py-3 px-4">Exposes which features are tied to the target column (e.g., “E”)</td>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <td class="px-2 py-1 whitespace-nowrap">feature_C</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Numeric</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Score-like, with nulls</td>
                                     </tr>
-                                    <tr class="border-b border-gray-200">
-                                        <td class="py-3 px-4">Find columns with high missing values</td>
-                                        <td class="py-3 px-4">Suggests unreliable features or noise (decoy detection)</td>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <td class="px-2 py-1 whitespace-nowrap">feature_D</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Text/Code</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Decoy noise</td>
                                     </tr>
-                                    <tr class="border-b border-gray-200">
-                                        <td class="py-3 px-4">Logistic Regression or Decision Tree</td>
-                                        <td class="py-3 px-4">Shows what features are most predictive of outcome — gives hints to purpose</td>
-                                    </tr>
-                                    <tr class="border-b border-gray-200">
-                                        <td class="py-3 px-4">Drop low-importance features</td>
-                                        <td class="py-3 px-4">Forces participants to filter out decoys and irrelevant data</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-3 px-4">Confusion Matrix</td>
-                                        <td class="py-3 px-4">Tells if the dataset is classifying something — like spam vs. not spam, or loan approved vs. denied</td>
+                                    <tr class="bg-white">
+                                        <td class="px-2 py-1 whitespace-nowrap">feature_E</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Numeric</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Discrete label (hidden target)</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <p class="text-gray-600 mt-4 font-semibold">Example Outcome:</p>
-                        <p class="text-gray-600 mb-2">After solving half the Bingo grid, a team notices:</p>
-                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
-                            <li>Column “E” is predictable from income, loan status, and age</li>
-                            <li>Columns “F”, “G” and “H” don’t improve model accuracy</li>
+                        <p class="text-sm text-center text-[#3E92CC] mt-auto">Mock Dataset: <a href="https://docs.google.com/spreadsheets/d/12BclkMWu4c3UC37XJ6eKInYaEXUe8Oh6ogoA8IGJItE/edit?usp=sharing" target="_blank" class="underline">Link</a></p>
+                    </div>
+
+                    <!-- Day 2 Card -->
+                    <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-full">
+                        <h3 class="text-2xl font-bold text-[#0A2463] mb-4 text-center">Day 2: Feature Analysis & Modeling</h3>
+                        <p class="text-gray-600 mb-4 flex-grow">
+                            Work with an expanded dataset, introducing new features (noise, IDs) and revealing the target column. Sharpen data cleaning and reasoning skills.
+                        </p>
+                        <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Sample Bingo Tasks:</h4>
+                        <ul class="list-disc list-inside text-gray-600 mb-4">
+                            <li>Identify & Explain Useless Cols</li>
+                            <li>Identify Outliers in Numeric Col</li>
+                            <li>Classify Columns by Data Type</li>
+                            <li>Correlation Heatmap (Numeric)</li>
+                            <li>Propose Likely Target Column</li>
                         </ul>
-                        <p class="text-gray-600 font-semibold">They reason:</p>
-                        <p class="text-gray-600 italic">“This is likely a loan approval prediction dataset where we're predicting whether a user gets a loan based on demographics and income.”</p>
+                        <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Day 2 Dataset Legend:</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-600 mb-4">
+                                <thead class="text-xs text-gray-700 uppercase bg-blue-50">
+                                    <tr>
+                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Column Name</th>
+                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Type</th>
+                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Purpose</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <td class="px-2 py-1 whitespace-nowrap">feature_a</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Numeric</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Continuous</td>
+                                    </tr>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <td class="px-2 py-1 whitespace-nowrap">feature_b</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Categorical</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Grouping</td>
+                                    </tr>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <td class="px-2 py-1 whitespace-nowrap">feature_c</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Numeric</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Decoy (mostly nulls)</td>
+                                    </tr>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <td class="px-2 py-1 whitespace-nowrap">id_code</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Text/Code</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Unique ID (not useful)</td>
+                                    </tr>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <td class="px-2 py-1 whitespace-nowrap">feature_d</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Numeric</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Score-like (0-100)</td>
+                                    </tr>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <td class="px-2 py-1 whitespace-nowrap">feature_e</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Numeric</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Decoy (constant)</td>
+                                    </tr>
+                                    <tr class="bg-white">
+                                        <td class="px-2 py-1 whitespace-nowrap">outcome</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Numeric</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Binary target (0 or 1)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm text-center text-[#3E92CC] mt-auto">Mock Dataset: <a href="https://docs.google.com/spreadsheets/d/1kmV-J1eOIC3DRzFALrx6junn2iD-Xl6bgWRHxEXfnkQ/edit?usp=sharing" target="_blank" class="underline">Link</a></p>
+                    </div>
+
+                    <!-- Day 3 Card -->
+                    <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-full">
+                        <h3 class="text-2xl font-bold text-[#0A2463] mb-4 text-center">Day 3: Final Challenge: Interpret & Deliver</h3>
+                        <p class="text-gray-600 mb-4 flex-grow">
+                            All feature names are revealed, and the real-world context is explained. Focus shifts to building, interpreting, and communicating your final ML model to stakeholders.
+                        </p>
+                        <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Sample Bingo Tasks:</h4>
+                        <ul class="list-disc list-inside text-gray-600 mb-4">
+                            <li>Refactor Data Cleaning Steps</li>
+                            <li>Evaluate Final Model (Acc, F1, etc.)</li>
+                            <li>Explain Top Predictive Features</li>
+                            <li>Propose Real Use Case</li>
+                            <li>Interpret Model for Non-Tech People</li>
+                        </ul>
+                        <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Day 3 Dataset Legend:</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-600 mb-4">
+                                <thead class="text-xs text-gray-700 uppercase bg-blue-50">
+                                    <tr>
+                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Column Name</th>
+                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <td class="px-2 py-1 whitespace-nowrap">age</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Age of the user (numerical)</td>
+                                    </tr>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <td class="px-2 py-1 whitespace-nowrap">city_group</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Type of city user belongs to (categorical)</td>
+                                    </tr>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <td class="px-2 py-1 whitespace-nowrap">last_activity_score</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Engagement score; has missing values</td>
+                                    </tr>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <td class="px-2 py-1 whitespace-nowrap">user_id</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Unique user identifier (not for modeling)</td>
+                                    </tr>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <td class="px-2 py-1 whitespace-nowrap">satisfaction_score</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">User’s satisfaction level (0–100)</td>
+                                    </tr>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <td class="px-2 py-1 whitespace-nowrap">static_flag</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Constant value = 10 (decoy)</td>
+                                    </tr>
+                                    <tr class="bg-white">
+                                        <td class="px-2 py-1 whitespace-nowrap">churn_status</td>
+                                        <td class="px-2 py-1 whitespace-nowrap">Target variable: 1 = churned, 0 = retained</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm text-center text-[#3E92CC] mt-auto">Final Dataset: <a href="https://docs.google.com/spreadsheets/d/1EFoogx4Ss0LizT_SX58_VgodOwUfoyo7y4uIk3up77w/edit?usp=sharing" target="_blank" class="underline">Link</a></p>
                     </div>
                 </div>
+            </section>
 
-                <div class="mt-8 pt-8 border-t border-gray-200">
-                    <h3 class="text-2xl font-bold text-[#0A2463] mb-4 text-center">Organizer View: Flow & Facilitation</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div>
-                            <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Setup Checklist:</h4>
-                            <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
-                                <li>1x Colab template with markdown instructions and bingo grid cells</li>
-                                <li>1-2 noisy CSVs per team (different themes optional)</li>
-                                <li>Pre-filled cells for loading data and starter guidance</li>
-                                <li>Google Forms for registration and submission</li>
-                            </ul>
+            <section id="scoring" class="my-16">
+                <h2 class="text-3xl font-bold text-center mb-12 text-[#0A2463]">📊 Scoring for the Event: How You're Judged</h2>
+                <p class="text-lg text-center max-w-3xl mx-auto text-gray-600 mb-8">
+                    Your performance will be evaluated across all three days, rewarding both technical completion and insightful analysis.
+                </p>
+                <div class="grid grid-cols-1 gap-12">
+                    <div class="bg-white rounded-2xl shadow-lg p-8">
+                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0A2463]">Detailed Scoring Rubric</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-600">
+                                <thead class="text-xs text-gray-700 uppercase bg-blue-50">
+                                    <tr>
+                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Day</th>
+                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Category</th>
+                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Points</th>
+                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 font-bold whitespace-nowrap" rowspan="3">Day 1</td><td class="px-2 py-1 whitespace-nowrap">Data exploration tasks completed</td><td class="px-2 py-1 whitespace-nowrap">10 pts</td><td class="px-2 py-1 whitespace-nowrap">Based on how many bingo tiles completed with valid outputs</td></tr>
+                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Basic insight / dataset guess</td><td class="px-2 py-1 whitespace-nowrap">5 pts</td><td class="px-2 py-1 whitespace-nowrap">Assessed for thoughtfulness and plausibility</td></tr>
+                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Submission on time</td><td class="px-2 py-1 whitespace-nowrap">5 pts</td><td class="px-2 py-1 whitespace-nowrap">Based on form timestamp</td></tr>
+                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 font-bold whitespace-nowrap" rowspan="4">Day 2</td><td class="px-2 py-1 whitespace-nowrap">Extended analysis + new tile completion</td><td class="px-2 py-1 whitespace-nowrap">10 pts</td><td class="px-2 py-1 whitespace-nowrap">E.g., outlier detection, handling decoys, variable types</td></tr>
+                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Initial modeling attempt (even if basic)</td><td class="px-2 py-1 whitespace-nowrap">5 pts</td><td class="px-2 py-1 whitespace-nowrap">If they tried a valid ML model (LogReg, RF, etc.)</td></tr>
+                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Insight into target/feature roles</td><td class="px-2 py-1 whitespace-nowrap">5 pts</td><td class="px-2 py-1 whitespace-nowrap">Understanding of feature impact, target definition</td></tr>
+                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Submission on time</td><td class="px-2 py-1 whitespace-nowrap">5 pts</td><td class="px-2 py-1 whitespace-nowrap">Based on timestamp</td></tr>
+                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 font-bold whitespace-nowrap" rowspan="5">Day 3</td><td class="px-2 py-1 whitespace-nowrap">Final model performance (accuracy/f1/ROC)</td><td class="px-2 py-1 whitespace-nowrap">15 pts</td><td class="px-2 py-1 whitespace-nowrap">Benchmark based on class balance & difficulty</td></tr>
+                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Interpretation of model & top features</td><td class="px-2 py-1 whitespace-nowrap">10 pts</td><td class="px-2 py-1 whitespace-nowrap">Did they explain why certain features mattered?</td></tr>
+                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Real-world framing of model</td><td class="px-2 py-1 whitespace-nowrap">10 pts</td><td class="px-2 py-1 whitespace-nowrap">Use-case understanding and practical deployment framing</td></tr>
+                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Clarity of final notebook + reflection</td><td class="px-2 py-1 whitespace-nowrap">10 pts</td><td class="px-2 py-1 whitespace-nowrap">Readable, complete, logical flow</td></tr>
+                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Submission before deadline</td><td class="px-2 py-1 whitespace-nowrap">5 pts</td><td class="px-2 py-1 whitespace-nowrap">Encourages timely wrap-up</td></tr>
+                                    <tr class="bg-white"><td class="px-2 py-1 font-bold whitespace-nowrap">Bonus</td><td class="px-2 py-1 whitespace-nowrap">Engaging insight, surprising idea or creativity</td><td class="px-2 py-1 whitespace-nowrap">+5 pts</td><td class="px-2 py-1 whitespace-nowrap">Optional bonus for standout teams</td></tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div>
-                            <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Organizer Goals:</h4>
-                            <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
-                                <li>Make sure each task gradually reveals insights about the dataset</li>
-                                <li>Decoys should be misleading but fair (not impossible to eliminate)</li>
-                                <li>Reward not just speed, but reasoning clarity in final answers</li>
-                            </ul>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-8">
+                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0A2463]">Scoring Breakdown by Day</h3>
+                        <div class="chart-container">
+                            <canvas id="scoringSummaryChart"></canvas>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section id="participant-journey" class="bg-white p-8 rounded-2xl shadow-md">
-                <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-6">🔍 Participant Journey: Step-by-Step Tactics & Learning Gains</h2>
+            <section id="participant-journey" class="my-16 bg-white p-8 rounded-2xl shadow-md">
+                <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-6">Participant Journey: Step-by-Step Tactics & Learning Gains</h2>
                 <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">
                     This section delves deeper into the practical strategies participants employ and the invaluable machine learning understanding they gain at each phase of the "Data Detectives & ML Bingo" challenge.
                 </p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">🧭 1. First Contact with the Dataset</h3>
+                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">1. First Contact with the Dataset</h3>
                         <p class="text-gray-600 mb-3">Upon opening the Colab notebook, participants encounter:</p>
                         <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
                             <li>A dataset with cryptic column names (e.g., A, B, C)</li>
@@ -260,7 +520,7 @@
                     </div>
 
                     <div class="bg-indigo-50 p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">🎯 2. Tackling Initial Bingo Tasks</h3>
+                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">2. Tackling Initial Bingo Tasks</h3>
                         <p class="text-gray-600 mb-3">They begin solving tasks like:</p>
                         <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
                             <li>Normalization: Scaling numerical columns to a 0–1 range</li>
@@ -281,7 +541,7 @@
                     </div>
 
                     <div class="bg-red-50 p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">🧪 3. Experimentation & Exploration</h3>
+                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">3. Experimentation & Exploration</h3>
                         <p class="text-gray-600 mb-3">As they progress:</p>
                         <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
                             <li>They try creating correlation heatmaps to identify predictive links</li>
@@ -303,7 +563,7 @@
                     </div>
 
                     <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">🔐 4. Cracking the Dataset Mystery</h3>
+                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">4. Cracking the Dataset Mystery</h3>
                         <p class="text-gray-600 mb-3">Through this process, participants begin connecting dots:</p>
                         <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
                             <li>"Column A might be income — values are in lakhs"</li>
@@ -321,7 +581,7 @@
                     </div>
 
                     <div class="bg-indigo-50 p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">🧠 5. Reflection & Team Learning</h3>
+                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">5. Reflection & Team Learning</h3>
                         <p class="text-gray-600 mb-3">At the end, teams submit:</p>
                         <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
                             <li>Their completed notebook</li>
@@ -338,34 +598,34 @@
                 </div>
 
                 <div class="mt-8 pt-8 border-t border-gray-200">
-                    <h3 class="text-2xl font-bold text-center text-[#0A2463] mb-4">📈 Benefits in Summary (For Participants)</h3>
+                    <h3 class="text-2xl font-bold text-center text-[#0A2463] mb-4">Benefits in Summary (For Participants)</h3>
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-white rounded-lg shadow-sm text-sm">
                             <thead class="bg-[#0A2463] text-white">
                                 <tr>
-                                    <th class="py-3 px-4 text-left">Skill Gained</th>
-                                    <th class="py-3 px-4 text-left">How the Event Teaches It</th>
+                                    <th class="py-3 px-4 text-left whitespace-nowrap">Skill Gained</th>
+                                    <th class="py-3 px-4 text-left whitespace-nowrap">How the Event Teaches It</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-700">
                                 <tr class="border-b border-gray-200">
-                                    <td class="py-3 px-4">Data Cleaning</td>
+                                    <td class="py-3 px-4 whitespace-nowrap">Data Cleaning</td>
                                     <td class="py-3 px-4">Tasks like missing value imputation, normalization</td>
                                 </tr>
                                 <tr class="border-b border-gray-200">
-                                    <td class="py-3 px-4">Feature Engineering</td>
+                                    <td class="py-3 px-4 whitespace-nowrap">Feature Engineering</td>
                                     <td class="py-3 px-4">Encoding, correlation analysis, dropping decoys</td>
                                 </tr>
                                 <tr class="border-b border-gray-200">
-                                    <td class="py-3 px-4">Model Thinking</td>
+                                    <td class="py-3 px-4 whitespace-nowrap">Model Thinking</td>
                                     <td class="py-3 px-4">Training simple classifiers, understanding results</td>
                                 </tr>
                                 <tr class="border-b border-gray-200">
-                                    <td class="py-3 px-4">Data Intuition</td>
+                                    <td class="py-3 px-4 whitespace-nowrap">Data Intuition</td>
                                     <td class="py-3 px-4">Making sense of anonymized columns, decoding structure</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-4">Collaboration</td>
+                                    <td class="py-3 px-4 whitespace-nowrap">Collaboration</td>
                                     <td class="py-3 px-4">Team-based problem solving and submission</td>
                                 </tr>
                             </tbody>
@@ -374,133 +634,74 @@
                 </div>
             </section>
 
-            <section id="colab" class="bg-[#0A2463] text-white p-8 rounded-2xl shadow-lg">
-                <h2 class="text-3xl font-bold text-center mb-6">The Powerhouse Platform: Google Colab</h2>
-                <p class="max-w-3xl mx-auto text-center text-gray-200 mb-10">
-                    Google Colab is the game-changer that makes this event possible, eliminating technical barriers and fostering a seamless, collaborative learning environment.
+            <section id="github-integration" class="my-16">
+                <h2 class="text-3xl font-bold text-center mb-8 text-[#0A2463]">🔗 GitHub: Your Central Hub</h2>
+                <p class="text-lg text-center max-w-3xl mx-auto text-gray-600 mb-12">
+                    GitHub will serve as the central public reference hub for the event, hosting datasets and links to the Google Colab notebooks and submission forms.
                 </p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-                    <div class="bg-white/10 p-6 rounded-lg">
-                        <div class="text-5xl">🚀</div>
-                        <h3 class="font-bold mt-3">Zero Setup</h3>
-                        <p class="text-sm text-gray-300">No installation needed. Everything runs in the browser.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="bg-white rounded-2xl shadow-lg p-8">
+                        <h3 class="2xl font-bold text-center mb-6 text-[#0A2463]">Repo Structure</h3>
+                        <div class="font-mono text-sm bg-gray-50 p-4 rounded-lg overflow-auto">
+                            <div class="github-folder">ml-bingo-event/</div>
+                            <div class="github-file ml-6">README.md</div>
+                            <div class="github-folder ml-6">datasets/</div>
+                            <div class="github-file ml-12">day1_dataset.csv</div>
+                            <div class="github-file ml-12">day2_dataset.csv</div>
+                            <div class="github-file ml-12">day3_dataset.csv</div>
+                            <div class="github-folder ml-6">links/</div>
+                            <div class="github-file ml-12">day1_submission_form.txt</div>
+                            <div class="github-file ml-12">day2_submission_form.txt</div>
+                            <div class="github-file ml-12">day3_submission_form.txt</div>
+                            <div class="github-file ml-12">day1_colab_link.txt</div>
+                            <div class="github-file ml-12">day2_colab_link.txt</div>
+                            <div class="github-file ml-12">day3_colab_link.txt</div>
+                        </div>
                     </div>
-                    <div class="bg-white/10 p-6 rounded-lg">
-                        <div class="text-5xl">📚</div>
-                        <h3 class="font-bold mt-3">Libraries Included</h3>
-                        <p class="text-sm text-gray-300">Pandas, NumPy, and Matplotlib are pre-installed and ready.</p>
-                    </div>
-                    <div class="bg-white/10 p-6 rounded-lg">
-                        <div class="text-5xl">☁️</div>
-                        <h3 class="font-bold mt-3">Cloud-Based</h3>
-                        <p class="text-sm text-gray-300">Work is saved automatically. No fear of losing progress.</p>
-                    </div>
-                    <div class="bg-white/10 p-6 rounded-lg">
-                        <div class="text-5xl">👥</div>
-                        <h3 class="font-bold mt-3">Real-Time Collab</h3>
-                        <p class="text-sm text-gray-300">Teams work on the same notebook simultaneously.</p>
+                    <div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col justify-center items-center">
+                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0A2463]">GitHub's Role</h3>
+                        <p class="text-center text-gray-600 mb-4">
+                            GitHub acts as the central hub for all event resources. Participants can easily access datasets, Colab notebook templates, and submission links directly from the repository.
+                        </p>
+                        <p class="text-center text-gray-600">
+                            This streamlines the event flow, ensuring everyone has consistent access to the latest materials.
+                        </p>
                     </div>
                 </div>
             </section>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <section id="tasks" class="bg-white p-8 rounded-2xl shadow-md">
-                    <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-4">Deconstructing the Bingo Grid</h2>
-                    <p class="text-center text-gray-600 mb-6">
-                        The Bingo grid is designed to build a holistic skillset. Tasks are balanced across practical coding, conceptual understanding, and data visualization to ensure a comprehensive learning experience.
-                    </p>
-                    <div class="chart-container">
-                        <canvas id="taskDistributionChart"></canvas>
-                    </div>
-                </section>
-
-                <section id="scoring" class="bg-white p-8 rounded-2xl shadow-md">
-                    <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-4">The Path to Victory</h2>
-                     <p class="text-center text-gray-600 mb-6">
-                        Success isn't just about speed. The scoring system rewards a blend of task completion, analytical depth, and creative thinking, encouraging a well-rounded approach to problem-solving.
-                    </p>
-                    <div class="chart-container">
-                        <canvas id="scoringChart"></canvas>
-                    </div>
-                </section>
-            </div>
-
-            <section id="prizes" class="bg-white p-8 rounded-2xl shadow-md">
-                <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-6">Celebrating Every Skill</h2>
-                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-10">
-                    To foster intrinsic motivation and celebrate the multifaceted nature of data science, recognition is given for a variety of achievements, ensuring everyone has a chance to shine.
-                </p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-                    <div class="p-6">
-                        <div class="text-5xl">🏆</div>
-                        <h3 class="font-bold mt-3 text-lg text-[#0A2463]">Bingo Boss</h3>
-                        <p class="text-sm text-gray-500">First to complete a valid row/column and submit a correct guess.</p>
-                    </div>
-                    <div class="p-6">
-                        <div class="text-5xl">🕵️</div>
-                        <h3 class="font-bold mt-3 text-lg text-[#0A2463]">Sharpest Detective</h3>
-                        <p class="text-sm text-gray-500">Recognizes the most accurate and insightful dataset guess.</p>
-                    </div>
-                    <div class="p-6">
-                        <div class="text-5xl">🎨</div>
-                        <h3 class="font-bold mt-3 text-lg text-[#0A2463]">Best EDA Visuals</h3>
-                        <p class="text-sm text-gray-500">Celebrates the most creative, clear, and useful graphs.</p>
-                    </div >
-                    <div class="p-6">
-                        <div class="text-5xl">📝</div>
-                        <h3 class="font-bold mt-3 text-lg text-[#0A2463]">Best Report</h3>
-                        <p class="text-sm text-gray-500">Honors the clearest and most concise explanation of the dataset.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="final-summary" class="bg-white p-8 rounded-2xl shadow-md">
-                <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-6">Final Summary: A Unified Vision</h2>
-                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">
-                    The "Data Detectives & ML Bingo" event seamlessly integrates learning and discovery, offering a unique and effective approach to introduce participants to the world of machine learning and data analysis.
-                </p>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full bg-white rounded-lg shadow-sm text-sm">
-                        <thead class="bg-[#0A2463] text-white">
-                            <tr>
-                                <th class="py-3 px-4 text-left">Aspect</th>
-                                <th class="py-3 px-4 text-left">Organizer Focus</th>
-                                <th class="py-3 px-4 text-left">Participant Benefit</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-gray-700">
-                            <tr class="border-b border-gray-200">
-                                <td class="py-3 px-4">Bingo Tasks</td>
-                                <td class="py-3 px-4">Ensure coverage of ML basics</td>
-                                <td class="py-3 px-4">Learn step-by-step coding concepts</td>
-                            </tr>
-                            <tr class="border-b border-gray-200">
-                                <td class="py-3 px-4">Mystery Dataset</td>
-                                <td class="py-3 px-4">Embed decoys & hints cleverly</td>
-                                <td class="py-3 px-4">Build intuition by discovery</td>
-                            </tr>
-                            <tr class="border-b border-gray-200">
-                                <td class="py-3 px-4">Submission Format</td>
-                                <td class="py-3 px-4">Easy via Colab & Forms</td>
-                                <td class="py-3 px-4">No setup hassle, focus on logic</td>
-                            </tr>
-                            <tr>
-                                <td class="py-3 px-4">Evaluation</td>
-                                <td class="py-3 px-4">Reasoning + Completion</td>
-                                <td class="py-3 px-4">Encourages depth over speed</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+            <footer class="text-center p-6 mt-8 bg-gray-200">
+                <p class="text-sm text-gray-600">An infographic inspired by the "Data Detectives & ML Bingo" event concept.</p>
+                <p class="text-sm text-gray-600 mt-2">Prepared by: Yashovardhan Poddar | Club/Committee: Leads CLub</p>
+            </footer>
         </div>
     </main>
 
-    <footer class="text-center p-6 mt-8 bg-gray-200">
-        <p class="text-sm text-gray-600">An infographic inspired by the "Data Detectives & ML Bingo" event concept.</p>
-    </footer>
-
     <script>
+        // Helper function to process labels for Chart.js to handle multi-line display
+        const processLabel = (label) => {
+            const maxLength = 16;
+            if (label.length <= maxLength) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine) {
+                lines.push(currentLine.trim());
+            }
+            return lines;
+        };
+        
+        // Common tooltip callback for Chart.js
         const tooltipCallback = {
             plugins: {
                 tooltip: {
@@ -528,91 +729,123 @@
             }
         };
 
-        const taskCtx = document.getElementById('taskDistributionChart').getContext('2d');
-        new Chart(taskCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Data Cleaning & Preprocessing', 'Exploratory Data Analysis (EDA)', ['Theoretical', 'Understanding'], 'Data Visualization'],
-                datasets: [{
-                    label: 'Task Distribution',
-                    data: [40, 25, 15, 20],
-                    backgroundColor: [
-                        '#3E92CC',
-                        '#0A2463',
-                        '#D8315B',
-                        '#5C8F94'
-                    ],
-                    borderColor: '#F8F9FA',
-                    borderWidth: 4,
-                    hoverOffset: 8
-                }]
-            },
-            options: {
-                ...tooltipCallback,
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '60%',
-            }
-        });
-
-        const scoringCtx = document.getElementById('scoringChart').getContext('2d');
-        new Chart(scoringCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Bingo Completion', 'Dataset Deduction', 'Analytical Depth', ['Optional Model', 'Implementation'], 'Creativity'],
-                datasets: [{
-                    label: 'Points Awarded',
-                    data: [30, 30, 20, 10, 10],
-                    backgroundColor: [
-                        '#3E92CC',
-                        '#0A2463',
-                        '#3E92CC',
-                        '#D8315B',
-                        '#D8315B'
-                    ],
-                    borderRadius: 8,
-                    barThickness: 'flex',
-                    maxBarThickness: 50,
-                }]
-            },
-            options: {
-                ...tooltipCallback,
-                responsive: true,
-                maintainAspectRatio: false,
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        grid: {
-                            display: false,
-                            drawBorder: false,
-                        },
-                        ticks: {
-                            font: {
-                                size: 14,
-                                weight: '600'
-                            }
-                        }
+        // Initialize charts after the DOM has fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chart for Task Distribution (Doughnut Chart)
+            const taskCanvas = document.getElementById('taskDistributionChart');
+            if (taskCanvas) {
+                const taskCtx = taskCanvas.getContext('2d');
+                new Chart(taskCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [
+                            processLabel('Data Cleaning & Preprocessing'),
+                            processLabel('Exploratory Data Analysis (EDA)'),
+                            processLabel('Theoretical Understanding'),
+                            processLabel('Data Visualization')
+                        ],
+                        datasets: [{
+                            label: 'Task Distribution',
+                            data: [40, 25, 15, 20], // Example distribution based on common ML tasks
+                            backgroundColor: [
+                                '#3E92CC', // Medium Blue
+                                '#0A2463', // Dark Blue
+                                '#D8315B', // Red/Pink
+                                '#5C8F94'  // Teal/Green
+                            ],
+                            borderColor: '#F8F9FA', // Light Gray background color for borders
+                            borderWidth: 4,
+                            hoverOffset: 8
+                        }]
                     },
-                    y: {
-                        grid: {
-                            display: false,
-                            drawBorder: false,
+                    options: {
+                        ...tooltipCallback,
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '60%',
+                    }
+                });
+            } else {
+                console.error("Task distribution chart canvas not found!");
+            }
+
+
+            // Chart for Scoring Breakdown (Horizontal Bar Chart)
+            const scoringCanvas = document.getElementById('scoringSummaryChart');
+            if (scoringCanvas) {
+                const scoringCtx = scoringCanvas.getContext('2d');
+                new Chart(scoringCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            processLabel('Day 1 Points'),
+                            processLabel('Day 2 Points'),
+                            processLabel('Day 3 Points'),
+                            processLabel('Bonus Points')
+                        ],
+                        datasets: [{
+                            label: 'Maximum Points',
+                            data: [20, 25, 50, 5], // Data from the provided scoring breakdown
+                            backgroundColor: [
+                                '#3E92CC', // Medium Blue
+                                '#0A2463', // Dark Blue
+                                '#3E92CC', // Medium Blue
+                                '#D8315B'  // Red/Pink
+                            ],
+                            borderRadius: 8,
+                            barThickness: 'flex',
+                            maxBarThickness: 50,
+                        }]
+                    },
+                    options: {
+                        ...tooltipCallback,
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'y', // Make it a horizontal bar chart
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Points',
+                                    color: '#4b5563'
+                                },
+                                ticks: {
+                                    color: '#4b5563',
+                                    font: {
+                                        size: 14,
+                                        weight: '600'
+                                    }
+                                },
+                                grid: {
+                                    display: false, // Hide x-axis grid lines
+                                    drawBorder: false,
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    color: '#4b5563',
+                                    font: {
+                                        size: 14,
+                                        weight: '600'
+                                    }
+                                },
+                                grid: {
+                                    display: false, // Hide y-axis grid lines
+                                    drawBorder: false,
+                                }
+                            }
                         },
-                        ticks: {
-                            font: {
-                                size: 14,
-                                weight: '600'
+                        plugins: {
+                            ...tooltipCallback.plugins,
+                            legend: {
+                                display: false // Hide legend for this chart
                             }
                         }
                     }
-                },
-                plugins: {
-                    ...tooltipCallback.plugins,
-                    legend: {
-                        display: false
-                    }
-                }
+                });
+            } else {
+                console.error("Scoring summary chart canvas not found!");
             }
         });
     </script>
