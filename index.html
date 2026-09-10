@@ -1,854 +1,1560 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Detectives & ML Bingo: The Discovery Challenge</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F8F9FA; /* Light Gray */
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 500px; /* Adjusted max-width as per new UI */
-            margin-left: auto;
-            margin-right: auto;
-            height: 320px; /* Adjusted height as per new UI */
-            max-height: 400px;
-        }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 400px; /* Adjusted height as per new UI */
-            }
-        }
-        .flow-arrow {
-            font-size: 2.5rem;
-            line-height: 1;
-            color: #3E92CC; /* Medium Blue */
-            transform: rotate(90deg);
-        }
-        @media (min-width: 768px) {
-            .flow-arrow {
-                transform: rotate(0deg);
-            }
-        }
-        .github-folder {
-            padding-left: 1.5rem;
-            position: relative;
-        }
-        .github-folder::before {
-            content: '📁';
-            position: absolute;
-            left: 0;
-            top: 0.25rem;
-        }
-        .github-file {
-            padding-left: 1.5rem;
-            position: relative;
-        }
-        .github-file::before {
-            content: '📄';
-            position: absolute;
-            left: 0;
-            top: 0.25rem;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PlayAble — Find. Match. Play.</title>
+<meta name="description" content="PlayAble — a platform where physically challenged people can find nearby players, accessible sports facilities, coaches, events, and compatible teams based on their abilities and preferences.">
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   PLAYABLE — concept presentation
+   Design language derived from fulltimestore.in:
+   warm paper, near-black ink, acid lime, Barlow uppercase, Lato body,
+   zero border-radius, structure carried by 1px rules and whitespace.
+
+   THE LIME LAW: #CDFF65 on #FBFAF8 is 1.11:1 — invisible.
+   Lime is only ever a FILL, a RULE, or TEXT ON INK. Never text on light.
+   Where lime would be text on light, olive #4D7C0F (4.79:1) substitutes.
+   ========================================================================== */
+
+:root{
+  /* raw channels */
+  --c-paper:251 250 248;   /* #FBFAF8 */
+  --c-ink:23 23 23;        /* #171717 */
+  --c-lime:205 255 101;    /* #CDFF65 */
+  --c-tint:247 254 231;    /* #F7FEE7 */
+  --c-sage:241 244 236;    /* #F1F4EC */
+  --c-paper2:246 247 244;  /* #F6F7F4 */
+  --c-olive:63 98 18;      /* #3F6212  lime's readable relative */
+  --c-amber:161 98 7;      /* #A16207  readable amber */
+  --c-rose:159 18 57;      /* #9F1239  readable rose */
+
+  /* semantic — flipped per section via [data-scheme] */
+  --bg:rgb(var(--c-paper));
+  --fg:rgb(var(--c-ink));
+  --fg70:rgb(var(--c-ink)/.72);
+  --fg50:rgb(var(--c-ink)/.62);
+  --fg35:rgb(var(--c-ink)/.55);
+  --rule:rgb(var(--c-ink)/.13);
+  --rule-soft:rgb(var(--c-ink)/.07);
+  --rule-hard:rgb(var(--c-ink)/.44);
+  --surface:#fff;
+  --surface2:rgb(var(--c-paper2));
+  --accent:rgb(var(--c-lime));
+  --accent-fg:rgb(var(--c-ink));
+  --accent-text:rgb(var(--c-olive));
+  --warn-text:rgb(var(--c-amber));
+  --neg-text:rgb(var(--c-rose));
+
+  /* type */
+  --f-head:"Barlow","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Lato",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+
+  --t-display:clamp(3rem,.6rem + 10.2vw,11.5rem);
+  --t-h1:clamp(2.25rem,1.3rem + 4.4vw,5.5rem);
+  --t-h2:clamp(2rem,1.3rem + 3.1vw,3.75rem);
+  --t-h3:clamp(1.375rem,1.15rem + .95vw,2.25rem);
+  --t-h4:clamp(1.0625rem,1rem + .3vw,1.3125rem);
+  --t-lead:clamp(1.1875rem,1.05rem + .62vw,1.75rem);
+  --t-body:clamp(1rem,.95rem + .28vw,1.25rem);
+  --t-sm:clamp(.9375rem,.9rem + .2vw,1.0625rem);
+  --t-xs:clamp(.875rem,.85rem + .16vw,1rem);
+  --t-micro:clamp(.75rem,.72rem + .13vw,.875rem);
+  --t-nano:clamp(.6875rem,.67rem + .1vw,.8125rem);
+
+  /* space */
+  --pad:clamp(1.125rem,.4rem + 3.1vw,3rem);
+  --page:1420px;
+  --sec:clamp(3.75rem,1.4rem + 8vw,9.5rem);
+  --blk:clamp(2rem,1rem + 3.2vw,3.75rem);
+  --measure:58ch;
+
+  /* motion */
+  --dm:120ms; --ds:200ms; --dr:520ms;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+
+[data-scheme="sage"]{ --bg:rgb(var(--c-sage)); --surface:rgb(var(--c-paper)); --surface2:#fff; }
+[data-scheme="tint"]{ --bg:rgb(var(--c-tint)); --surface:#fff; --surface2:rgb(var(--c-paper)); }
+[data-scheme="dark"]{
+  --bg:rgb(var(--c-ink));
+  --fg:rgb(var(--c-paper));
+  --fg70:rgb(var(--c-paper)/.74);
+  --fg50:rgb(var(--c-paper)/.64);
+  --fg35:rgb(var(--c-paper)/.52);
+  --rule:rgb(var(--c-paper)/.16);
+  --rule-soft:rgb(var(--c-paper)/.09);
+  --rule-hard:rgb(var(--c-paper)/.46);
+  --surface:rgb(var(--c-paper)/.045);
+  --surface2:rgb(var(--c-paper)/.08);
+  --accent-text:rgb(var(--c-lime));   /* on ink, lime IS text-safe (15.4:1) */
+  --warn-text:#FCD34D;
+  --neg-text:#FDA4AF;
+}
+[data-scheme="lime"]{
+  --bg:rgb(var(--c-lime));
+  --fg:rgb(var(--c-ink));
+  --fg70:rgb(var(--c-ink)/.76);
+  --fg50:rgb(var(--c-ink)/.68);
+  --rule:rgb(var(--c-ink)/.24);
+  --rule-hard:rgb(var(--c-ink)/.5);
+  --surface:rgb(var(--c-ink)/.06);
+  --surface2:rgb(var(--c-ink)/.09);
+  --accent:rgb(var(--c-ink));
+  --accent-fg:rgb(var(--c-lime));
+  --accent-text:rgb(var(--c-ink));
+}
+
+/* ============================ reset ============================ */
+*,*::before,*::after{box-sizing:border-box}
+html{ -webkit-text-size-adjust:100%; overflow-x:clip; scroll-behavior:smooth; }
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font:400 var(--t-body)/1.6 var(--f-body);
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  overflow-x:clip;
+}
+img,svg{max-width:100%}
+h1,h2,h3,h4,p,ul,ol,figure,blockquote{margin:0}
+ul,ol{padding:0;list-style:none}
+button,input,select{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer}
+a{color:inherit}
+:focus-visible{ outline:2px solid var(--fg); outline-offset:3px; }
+::selection{ background:rgb(var(--c-lime)); color:rgb(var(--c-ink)); }
+[hidden]{display:none!important}
+.vh{ position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0 }
+
+/* ============================ type ============================ */
+.d,h1,h2,h3,.h4{
+  font-family:var(--f-head); font-weight:500; text-transform:uppercase;
+  line-height:.94; letter-spacing:-.03em; text-wrap:balance;
+}
+h1{font-size:var(--t-h1)}
+h2{font-size:var(--t-h2); letter-spacing:-.028em}
+h3{font-size:var(--t-h3); font-weight:600; letter-spacing:-.014em; line-height:1.05}
+.h4{font-size:var(--t-h4); font-weight:600; letter-spacing:0; line-height:1.2}
+p{text-wrap:pretty}
+.lead{ font-size:var(--t-lead); line-height:1.45; color:var(--fg70); max-width:var(--measure); }
+.mono{ font-family:var(--f-mono); font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
+.eyebrow{
+  font-family:var(--f-head); font-weight:600; font-size:var(--t-nano);
+  text-transform:uppercase; letter-spacing:.18em; line-height:1; color:var(--fg50);
+}
+.label{
+  font-family:var(--f-head); font-weight:600; font-size:var(--t-micro);
+  text-transform:uppercase; letter-spacing:.14em; line-height:1; color:var(--fg50);
+}
+.num{font-variant-numeric:tabular-nums}
+strong,b{font-weight:700}
+.quiet{color:var(--fg70)}
+.tiny{font-size:var(--t-xs);color:var(--fg50);line-height:1.5}
+
+/* ============================ layout ============================ */
+.wrap{ width:100%; max-width:var(--page); margin-inline:auto; padding-inline:var(--pad); }
+[data-scheme]{ background:var(--bg); color:var(--fg); }
+.band{ padding-block:var(--sec); }
+.band--tight{ padding-block:clamp(2.5rem,1rem + 5vw,5rem); }
+
+/* the hairline grid — every rule on the page is exactly 1px, never doubled */
+.hgrid{ display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule); }
+.hgrid > *{ background:var(--bg); padding:clamp(1.125rem,.7rem + 1.6vw,2rem); min-width:0; }
+.hgrid--2{grid-template-columns:1fr}
+.hgrid--3{grid-template-columns:1fr}
+.hgrid--4{grid-template-columns:1fr}
+@media(min-width:34em){
+  .hgrid--2,.hgrid--4{grid-template-columns:repeat(2,1fr)}
+  .hgrid--3{grid-template-columns:repeat(2,1fr)}
+}
+@media(min-width:60em){
+  .hgrid--3{grid-template-columns:repeat(3,1fr)}
+  .hgrid--4{grid-template-columns:repeat(4,1fr)}
+}
+
+.scroller{ overflow-x:auto; overscroll-behavior-x:contain; }
+
+/* section head: [ 01 ] ————————— TITLE */
+.shead{ display:flex; align-items:center; gap:clamp(.75rem,2vw,1.5rem); margin-bottom:clamp(1.5rem,1rem + 2vw,2.75rem); }
+.shead__n{ font-family:var(--f-mono); font-weight:500; font-size:var(--t-micro); letter-spacing:.08em; color:var(--fg50); flex:none; }
+.shead__r{ flex:1; height:1px; background:var(--rule); transform-origin:left; }
+.shead__t{ flex:none; }
+
+.stack{ display:flex; flex-direction:column; gap:var(--blk); }
+.two{ display:grid; gap:clamp(1.75rem,1rem + 3vw,3.5rem); align-items:start; }
+@media(min-width:56em){ .two{grid-template-columns:1fr 1fr} .two--wide{grid-template-columns:1.15fr .85fr} }
+
+/* ============================ header ============================ */
+.hdr{
+  position:sticky; top:0; z-index:60; background:var(--bg);
+  border-bottom:1px solid transparent; transition:border-color var(--ds) var(--ease);
+}
+.hdr[data-stuck]{border-bottom-color:var(--rule)}
+.hdr__in{ display:flex; align-items:center; justify-content:space-between; gap:1rem; height:60px; }
+@media(min-width:60em){ .hdr__in{height:72px} }
+.brand{
+  font-family:var(--f-head); font-weight:600; font-size:1.0625rem; text-transform:uppercase;
+  letter-spacing:.02em; text-decoration:none; display:inline-flex; align-items:center; gap:.5rem;
+}
+.brand b{font-weight:600}
+.brand i{ display:inline-block; width:9px; height:9px; background:var(--accent); font-style:normal; }
+.hdr__nav{display:none}
+@media(min-width:60em){
+  .hdr__nav{ display:flex; gap:clamp(1rem,2.2vw,2rem); }
+  .hdr__nav a{
+    font-family:var(--f-head); font-weight:600; font-size:var(--t-micro); text-transform:uppercase;
+    letter-spacing:.13em; text-decoration:none; color:var(--fg50); padding-block:.4rem;
+    border-bottom:2px solid transparent; transition:color var(--dm) linear;
+  }
+  .hdr__nav a:hover{color:var(--fg)}
+  .hdr__nav a[aria-current="true"]{ color:var(--fg); border-bottom-color:var(--accent); }
+}
+.rail{ position:absolute; left:0; bottom:-1px; height:2px; width:100%; background:var(--accent);
+       transform:scaleX(0); transform-origin:0 50%; }
+.skip{
+  position:fixed; left:var(--pad); top:-4rem; z-index:99; background:var(--fg); color:var(--bg);
+  padding:.75rem 1.125rem; font-family:var(--f-head); font-weight:600; font-size:var(--t-micro);
+  text-transform:uppercase; letter-spacing:.14em; text-decoration:none; transition:top var(--ds) var(--ease);
+}
+.skip:focus{top:.5rem}
+
+/* ============================ buttons ============================ */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
+  font-family:var(--f-head); font-weight:500; font-size:var(--t-xs); text-transform:uppercase;
+  letter-spacing:.07em; line-height:1; padding:15px 22px 13px; border:1px solid; border-radius:0;
+  text-decoration:none; min-height:44px;
+  transition:background-color var(--dm) linear,color var(--dm) linear,border-color var(--dm) linear;
+}
+.btn--p{ background:var(--accent); color:var(--accent-fg); border-color:var(--fg); }
+.btn--p:hover{ background:var(--fg); color:var(--bg); }
+.btn--o{ background:transparent; color:var(--fg); border-color:var(--rule-hard); }
+.btn--o:hover{ background:var(--fg); color:var(--bg); border-color:var(--fg); }
+.btn:active{transform:translateY(1px)}
+.btn--sm{padding:11px 15px 9px;font-size:var(--t-nano);min-height:40px}
+
+/* ============================ chips / inputs ============================ */
+.chip{
+  display:inline-flex; align-items:center; gap:.5rem; min-height:44px;
+  font-family:var(--f-head); font-weight:600; font-size:var(--t-micro); text-transform:uppercase;
+  letter-spacing:.1em; padding:.6rem .85rem; border:1px solid var(--rule-hard); background:transparent;
+  color:var(--fg); transition:background-color var(--dm) linear,color var(--dm) linear;
+  text-align:left; line-height:1.25;
+}
+.chip:hover{background:var(--surface2)}
+.chip[aria-pressed="true"]{ background:var(--fg); color:var(--bg); border-color:var(--fg); }
+.chip[aria-pressed="true"] .tick{opacity:1}
+.chip .tick{opacity:0;flex:none;transition:opacity var(--dm) linear}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+
+.field{ display:flex; flex-direction:column; gap:.5rem; min-width:0; }
+.field > .label{color:var(--fg50)}
+select,input[type="text"],input[type="search"]{
+  -webkit-appearance:none; appearance:none; width:100%; min-height:46px;
+  background:var(--surface2); border:0; border-bottom:1px solid var(--rule-hard); border-radius:0;
+  padding:.7rem .85rem; font:400 var(--t-sm)/1.3 var(--f-body); color:var(--fg);
+}
+select{
+  padding-right:2.25rem;
+  background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);
+  background-position:calc(100% - 17px) 51%,calc(100% - 12px) 51%;
+  background-size:5px 5px,5px 5px; background-repeat:no-repeat;
+}
+select:focus,input:focus{ outline:2px solid var(--fg); outline-offset:2px; }
+::placeholder{ color:var(--fg35); font-family:var(--f-mono); font-size:var(--t-xs); }
+
+/* ============================ hero ============================ */
+.hero{ padding-top:clamp(2.5rem,1rem + 6vw,6rem); padding-bottom:clamp(2.5rem,1.5rem + 3vw,5rem); }
+.hero__d{
+  font-family:var(--f-head); font-weight:500; font-size:var(--t-display); line-height:.82;
+  letter-spacing:-.045em; text-transform:uppercase; margin:0;
+}
+.hero__d span{ display:block; }
+.hero__d span.hero__mark{
+  display:inline-block;
+  background:var(--accent); color:rgb(var(--c-ink));
+  box-decoration-break:clone; -webkit-box-decoration-break:clone; padding:0 .1em .04em; margin-left:-.1em;
+}
+.hero__sub{
+  margin-top:clamp(1.25rem,.7rem + 2vw,2.25rem);
+  font-family:var(--f-head); font-weight:600; font-size:clamp(1rem,.85rem + .8vw,1.625rem);
+  text-transform:uppercase; letter-spacing:.02em; line-height:1.1;
+}
+.hero__sub em{ font-style:normal; color:var(--fg35); }
+.hero__p{ margin-top:1.25rem; max-width:52ch; }
+.hero__cta{ display:flex; flex-wrap:wrap; gap:.75rem; margin-top:clamp(1.75rem,1rem + 2.5vw,2.75rem); }
+.hero__meta{
+  margin-top:clamp(2.5rem,1.5rem + 4vw,5rem); border-top:1px solid var(--rule);
+  display:grid; grid-template-columns:repeat(2,1fr); gap:0;
+}
+@media(min-width:48em){ .hero__meta{grid-template-columns:repeat(4,1fr)} }
+.hero__meta div{ padding:1.5rem 0; border-right:1px solid var(--rule); padding-right:1rem; }
+.hero__meta div:last-child{border-right:0}
+@media(max-width:47.99em){
+  .hero__meta div:nth-child(2n){border-right:0}
+  .hero__meta div:nth-child(-n+2){border-bottom:1px solid var(--rule)}
+}
+.hero__meta b{ display:block; font-family:var(--f-mono); font-weight:500; font-size:var(--t-micro);
+  letter-spacing:.08em; text-transform:uppercase; color:var(--fg50); margin-bottom:.4rem; }
+.hero__meta span{ font-size:var(--t-sm); line-height:1.35; display:block; }
+
+/* ============================ marquee ============================ */
+.mq{ overflow:hidden; contain:paint; border-block:1px solid var(--rule); }
+.mq__t{ display:flex; width:max-content; animation:mq 42s linear infinite; }
+.mq:hover .mq__t{animation-play-state:paused}
+.mq--rev .mq__t{animation-direction:reverse;animation-duration:34s}
+.mq__g{ display:flex; align-items:center; flex:none; padding-block:clamp(.9rem,.6rem + 1.1vw,1.6rem); }
+.mq__i{
+  font-family:var(--f-head); font-weight:500; text-transform:uppercase; letter-spacing:-.02em;
+  font-size:clamp(1.125rem,.7rem + 2.1vw,2.5rem); line-height:1; display:inline-flex; align-items:center; white-space:nowrap;
+}
+.mq__i::after{
+  content:""; width:8px; height:8px; border:1.5px solid currentColor; opacity:.5;
+  margin-inline:clamp(.85rem,2vw,1.75rem); flex:none;
+}
+@keyframes mq{ to{ transform:translate3d(-50%,0,0) } }
+
+/* ============================ big idea ============================ */
+.idea__q{
+  font-family:var(--f-head); font-weight:500; text-transform:uppercase; line-height:.98;
+  letter-spacing:-.03em; font-size:clamp(1.5rem,.95rem + 2.6vw,3.5rem); text-wrap:balance; margin:0;
+}
+.idea__q i{font-style:normal;color:var(--fg35)}
+.idea__foot{ margin-top:clamp(1.5rem,1rem + 2vw,2.5rem); padding-top:1.5rem; border-top:1px solid var(--rule); }
+
+/* ============================ stats ============================ */
+.stat b{
+  display:block; font-family:var(--f-head); font-weight:500; letter-spacing:-.04em; line-height:.86;
+  font-size:clamp(2.75rem,1.5rem + 5.6vw,6.5rem); font-variant-numeric:tabular-nums;
+}
+.stat--hi b{color:var(--accent-text)}
+.stat span{ display:block; margin-top:.85rem; font-family:var(--f-mono); font-size:var(--t-micro);
+  text-transform:uppercase; letter-spacing:.1em; color:var(--fg50); line-height:1.45; }
+
+/* ============================ contents index ============================ */
+.toc a{
+  display:flex; gap:.85rem; align-items:baseline; text-decoration:none; padding:.85rem .25rem;
+  border-bottom:1px solid var(--rule-soft); transition:background-color var(--dm) linear;
+}
+.toc a:hover{background:var(--surface2)}
+.toc a b{ font-family:var(--f-mono); font-weight:500; font-size:var(--t-micro); color:var(--fg50); flex:none; }
+.toc a span{ font-family:var(--f-head); font-weight:600; font-size:var(--t-sm); text-transform:uppercase;
+  letter-spacing:.02em; line-height:1.25; }
+.toc{ display:grid; gap:0 clamp(1.5rem,4vw,4rem); }
+@media(min-width:44em){ .toc{grid-template-columns:1fr 1fr} }
+@media(min-width:72em){ .toc{grid-template-columns:1fr 1fr 1fr} }
+
+/* ============================ cards / demos ============================ */
+.card{ background:var(--surface); border:1px solid var(--rule); padding:clamp(1.125rem,.75rem + 1.4vw,1.75rem); }
+.card--flat{background:transparent}
+.demo{ border:1px solid var(--rule-hard); background:var(--surface); }
+.demo__h{
+  display:flex; align-items:center; justify-content:space-between; gap:.75rem; flex-wrap:wrap;
+  padding:.85rem 1rem; border-bottom:1px solid var(--rule); background:var(--surface2);
+}
+.demo__b{ padding:clamp(1rem,.7rem + 1.2vw,1.5rem); }
+.demo__f{ padding:1rem; border-top:1px solid var(--rule); background:var(--surface2); }
+.tag{
+  display:inline-flex; align-items:center; gap:.4rem; font-family:var(--f-head); font-weight:600;
+  font-size:var(--t-nano); text-transform:uppercase; letter-spacing:.14em; color:var(--fg50);
+}
+.tag::before{ content:""; width:6px; height:6px; background:var(--accent); flex:none; }
+
+/* result line — the answer the demo produces */
+.res{
+  display:flex; align-items:center; gap:.75rem; padding:1rem; margin-top:1rem;
+  border:1px solid var(--fg); background:var(--fg); color:var(--bg);
+}
+.res b{ font-family:var(--f-head); font-weight:600; font-size:clamp(1rem,.9rem + .55vw,1.375rem);
+  text-transform:uppercase; letter-spacing:-.01em; line-height:1.15; font-variant-numeric:tabular-nums; }
+.res .dot{ width:9px;height:9px;background:rgb(var(--c-lime));flex:none }
+.res[data-busy="true"] .dot{ animation:pulse 900ms steps(2,end) infinite }
+@keyframes pulse{ 50%{opacity:.25} }
+
+/* flow: a → b → c */
+.flow{ display:flex; flex-wrap:wrap; align-items:center; gap:.5rem .25rem; }
+.flow li{ display:inline-flex; align-items:center; gap:.5rem; font-family:var(--f-head); font-weight:600;
+  font-size:var(--t-micro); text-transform:uppercase; letter-spacing:.1em; }
+.flow li:not(:last-child)::after{ content:"→"; color:var(--fg35); margin-left:.5rem; font-weight:400; }
+
+/* attribute list with hairline rows */
+.rows li{ display:flex; gap:1rem; justify-content:space-between; align-items:baseline;
+  padding:.7rem 0; border-bottom:1px solid var(--rule-soft); font-size:var(--t-sm); }
+.rows li:last-child{border-bottom:0}
+.rows .k{color:var(--fg70)}
+.rows .v{ font-family:var(--f-mono); font-size:var(--t-xs); text-align:right; flex:none; }
+
+/* bullet list with lime square markers */
+.bul li{ position:relative; padding-left:1.4rem; margin-bottom:.65rem; font-size:var(--t-sm); line-height:1.55; color:var(--fg70); }
+.bul li:last-child{margin-bottom:0}
+.bul li::before{ content:""; position:absolute; left:0; top:.52em; width:7px; height:7px;
+  background:var(--accent); }
+[data-scheme="lime"] .bul li::before{background:var(--fg)}
+
+/* numbered steps */
+.steps{ counter-reset:s; }
+.steps li{ counter-increment:s; position:relative; padding-left:2.4rem; padding-block:.6rem;
+  border-bottom:1px solid var(--rule-soft); font-size:var(--t-sm); line-height:1.5; }
+.steps li:last-child{border-bottom:0}
+.steps li::before{
+  content:counter(s,decimal-leading-zero); position:absolute; left:0; top:.72rem;
+  font-family:var(--f-mono); font-weight:500; font-size:var(--t-micro); color:var(--fg50);
+}
+
+/* ============================ venue / accessibility ============================ */
+.venue__score{ display:flex; align-items:flex-end; gap:1.25rem; flex-wrap:wrap; }
+.venue__score b{ font-family:var(--f-head); font-weight:500; font-size:clamp(2.5rem,1.5rem + 4vw,4.5rem);
+  line-height:.82; letter-spacing:-.04em; font-variant-numeric:tabular-nums; }
+.venue__score b i{ font-style:normal; font-size:.42em; color:var(--fg35); letter-spacing:0; }
+.meter{ height:6px; background:var(--rule); margin-top:.9rem; }
+.meter i{ display:block; height:100%; background:var(--accent); transition:width var(--ds) var(--ease); }
+[data-scheme="lime"] .meter i{background:var(--fg)}
+
+.feat li{ display:flex; align-items:center; gap:.75rem; padding:.62rem 0; border-bottom:1px solid var(--rule-soft); }
+.feat li:last-child{border-bottom:0}
+.feat .nm{ flex:1; font-size:var(--t-sm); min-width:0; }
+.feat button.nm{ text-align:left; }
+.mk{ width:20px;height:20px;flex:none;display:grid;place-items:center;border:1px solid var(--rule-hard); }
+.mk--y{ background:var(--accent); border-color:var(--fg); }
+.mk--n{ background:transparent; }
+.mk svg{width:11px;height:11px;display:block}
+.mk--y svg{color:rgb(var(--c-ink))}
+.mk--n svg{color:var(--fg50)}
+
+/* passport */
+.pp li{ display:grid; grid-template-columns:1fr auto; gap:.75rem 1rem; align-items:center;
+  padding:.85rem 0; border-bottom:1px solid var(--rule-soft); }
+.pp li:last-child{border-bottom:0}
+.pp .lvl{ display:inline-flex; align-items:center; gap:.55rem; font-family:var(--f-head); font-weight:600;
+  font-size:var(--t-micro); text-transform:uppercase; letter-spacing:.12em; }
+.pp .sq{ width:11px;height:11px;flex:none;border:1px solid var(--fg) }
+.pp .sq--full{background:var(--accent)}
+.pp .sq--half{ background:linear-gradient(135deg,var(--accent) 0 50%,transparent 50% 100%) }
+
+/* rating widget */
+.rate li{ display:grid; grid-template-columns:1fr auto; gap:.6rem 1rem; align-items:center;
+  padding:.6rem 0; border-bottom:1px solid var(--rule-soft); }
+.rate li:last-child{border-bottom:0}
+.rate .nm{font-size:var(--t-sm)}
+.rate__set{ display:flex; gap:4px; }
+.rate__b{ width:32px;height:32px;padding:0;border:1px solid var(--rule-hard);background:transparent;
+  display:grid;place-items:center; }
+.rate__b[data-on="1"]{ background:var(--accent); border-color:var(--fg); }
+.rate__b:focus-visible{outline-offset:2px}
+.rate__b span{ width:9px;height:9px;background:var(--fg35) }
+.rate__b[data-on="1"] span{ background:rgb(var(--c-ink)) }
+
+/* leaderboard */
+.lb li{ display:grid; grid-template-columns:auto 1fr auto; gap:1rem; align-items:baseline;
+  padding:.8rem 0; border-bottom:1px solid var(--rule-soft); }
+.lb li:last-child{border-bottom:0}
+.lb .r{ font-family:var(--f-mono); font-size:var(--t-micro); color:var(--fg50) }
+.lb .n{ font-family:var(--f-head); font-weight:600; font-size:var(--t-h4); text-transform:uppercase; letter-spacing:.01em }
+.lb .x{ font-family:var(--f-mono); font-size:var(--t-sm); font-variant-numeric:tabular-nums }
+.lb li[data-you]{ background:var(--surface2); margin-inline:calc(-1 * clamp(.5rem,1.5vw,1rem));
+  padding-inline:clamp(.5rem,1.5vw,1rem); }
+
+/* revenue table */
+.rev li{ display:grid; grid-template-columns:1fr; gap:.3rem; padding:.9rem 0; border-bottom:1px solid var(--rule-soft); }
+@media(min-width:38em){ .rev li{ grid-template-columns:minmax(9rem,.42fr) 1fr; gap:1.5rem; align-items:baseline; } }
+.rev li:last-child{border-bottom:0}
+.rev .src{ font-family:var(--f-head); font-weight:600; font-size:var(--t-h4); text-transform:uppercase; letter-spacing:.01em; }
+.rev .how{ font-size:var(--t-sm); color:var(--fg70); position:relative; padding-left:1.4rem; }
+.rev .how::before{ content:"→"; position:absolute; left:0; color:var(--fg35); }
+
+/* tabs */
+.tabs{ display:flex; gap:0; border-bottom:1px solid var(--rule); flex-wrap:wrap; }
+.tab{
+  font-family:var(--f-head); font-weight:600; font-size:var(--t-micro); text-transform:uppercase;
+  letter-spacing:.12em; padding:.95rem 1.05rem; border:0; border-bottom:2px solid transparent;
+  color:var(--fg50); min-height:44px;
+}
+.tab[aria-selected="true"]{ color:var(--fg); border-bottom-color:var(--accent); }
+.tab:hover{color:var(--fg)}
+.tpanel{ padding-top:clamp(1.25rem,1rem + 1.4vw,2rem); }
+
+/* statement (§16 / §20) */
+.stmt{ text-align:left; }
+.stmt__a{
+  font-family:var(--f-head); font-weight:500; text-transform:uppercase; letter-spacing:-.035em;
+  line-height:.9; font-size:clamp(2rem,1rem + 5.6vw,6rem); margin:0; text-wrap:balance;
+}
+.stmt__vs{ display:flex; align-items:center; gap:1rem; margin-block:clamp(1rem,.6rem + 1.6vw,2rem); }
+.stmt__vs span{ font-family:var(--f-mono); font-size:var(--t-micro); text-transform:uppercase;
+  letter-spacing:.16em; color:var(--fg50); flex:none; }
+.stmt__vs i{ flex:1; height:1px; background:var(--rule); }
+.stmt__b{
+  font-family:var(--f-head); font-weight:500; text-transform:uppercase; letter-spacing:-.03em;
+  line-height:.95; font-size:clamp(1.25rem,.8rem + 2.4vw,2.75rem); margin:0; color:var(--fg50);
+  text-decoration:line-through; text-decoration-thickness:2px; text-wrap:balance;
+}
+
+/* footer */
+.ft__mark{
+  font-family:var(--f-head); font-weight:500; text-transform:uppercase; letter-spacing:-.045em;
+  font-size:clamp(3.5rem,2rem + 13vw,13rem); line-height:.78; margin:0;
+  padding-top:clamp(1rem,3vw,2.5rem);
+}
+.ft__wrap{overflow:hidden}
+.ft__grid{ margin-top:clamp(2rem,1rem + 3vw,3.5rem); }
+.ft__bot{ margin-top:clamp(2rem,1rem + 3vw,3.5rem); padding-top:1.25rem; border-top:1px solid var(--rule);
+  display:flex; flex-wrap:wrap; gap:.75rem 1.5rem; justify-content:space-between;
+  font-family:var(--f-mono); font-size:var(--t-micro); color:var(--fg50); }
+.ft__bot a{text-decoration:none}
+.ft__bot a:hover{color:var(--fg)}
+
+/* icons */
+.ic{ width:1em;height:1em;flex:none;display:inline-block;vertical-align:-.125em; }
+
+/* ============================ motion ============================ */
+html.js [data-reveal]{ opacity:0; transform:translateY(14px); }
+html.js [data-reveal].in{
+  opacity:1; transform:none;
+  transition:opacity var(--dr) var(--ease),transform var(--dr) var(--ease);
+}
+html.js .shead__r{transform:scaleX(0)}
+html.js [data-reveal].in .shead__r,html.js .shead__r.in{ transform:scaleX(1); transition:transform var(--dr) var(--ease); }
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important; animation-iteration-count:1!important;
+    transition-duration:.01ms!important; scroll-behavior:auto!important;
+  }
+  html{scroll-behavior:auto}
+  .mq__t{animation:none;transform:none}
+  html.js [data-reveal]{opacity:1!important;transform:none!important}
+  html.js .shead__r{transform:scaleX(1)!important}
+}
+
+/* ============================ print ============================ */
+@media print{
+  .hdr,.mq,.rail,.skip,.btn{display:none!important}
+  [data-scheme]{ --bg:#fff!important; --fg:#000!important; --fg70:#333!important; --fg50:#555!important;
+    --fg35:#777!important; --rule:#ccc!important; --rule-soft:#e5e5e5!important; --rule-hard:#999!important;
+    --surface:#fff!important; --surface2:#fafafa!important; --accent:#cdff65!important; }
+  body{background:#fff;color:#000}
+  section{break-inside:avoid; padding-block:1.5rem!important}
+  .band{padding-block:1.5rem!important}
+  html.js [data-reveal]{opacity:1!important;transform:none!important}
+  a[href^="#"]{text-decoration:none}
+}
+</style>
 </head>
-<body class="text-gray-800">
+<body>
 
-    <header class="bg-[#0A2463] text-white text-center p-8 md:p-12 shadow-lg">
-        <h1 class="text-4xl md:text-6xl font-black tracking-tight">Data Detectives & ML Bingo: The Discovery Challenge</h1>
-        <p class="mt-4 text-lg md:text-xl max-w-3xl mx-auto text-gray-200">Organized By: Leads</p>
-        <p class="mt-2 text-base md:text-lg text-gray-300">Online, Beginner-Friendly, Collaborative ML Exploration</p>
-    </header>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-check" viewBox="0 0 16 16"><path d="M2.5 8.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></symbol>
+    <symbol id="i-x" viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 16 16"><path d="M8 15s5-5.2 5-9A5 5 0 0 0 3 6c0 3.8 5 9 5 9z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="6" r="1.8" fill="currentColor"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 16 16"><rect x="1.8" y="3" width="12.4" height="11.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M1.8 6.6h12.4M5 1.6v2.6M11 1.6v2.6" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.4V8l2.6 1.8" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="i-users" viewBox="0 0 16 16"><circle cx="6" cy="5.4" r="2.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M1.5 14c0-2.6 2-4.4 4.5-4.4S10.5 11.4 10.5 14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 3.2a2.6 2.6 0 0 1 0 5M12.2 9.9c1.5.5 2.3 2 2.3 4.1" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="i-target" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="2.6" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="i-star" viewBox="0 0 16 16"><path d="M8 1.6l1.9 4.1 4.5.5-3.4 3 1 4.4L8 11.4 4 13.6l1-4.4-3.4-3 4.5-.5z" fill="currentColor"/></symbol>
+    <symbol id="i-acc" viewBox="0 0 16 16"><circle cx="8.6" cy="2.9" r="1.7" fill="currentColor"/><path d="M4.6 5.6l3.4 1.1v3.1h3.1M5.2 8.1A4.4 4.4 0 1 0 11 13.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 16 16"><path d="M8 1.6L15 14H1z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="miter"/><path d="M8 6v3.4" stroke="currentColor" stroke-width="1.7"/><circle cx="8" cy="11.6" r=".95" fill="currentColor"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M2 8h11.5M9 3.5L13.8 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/></symbol>
+    <symbol id="i-search" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.6 10.6L14.5 14.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/></symbol>
+  </defs>
+</svg>
 
-    <main class="container mx-auto p-4 md:p-8">
-        <div class="grid grid-cols-1 gap-8">
+<a class="skip" href="#main">Skip to content</a>
 
-            <section id="intro" class="text-center bg-white p-8 rounded-2xl shadow-md">
-                <h2 class="text-3xl font-bold text-[#0A2463] mb-4">A Synergistic Learning Experience</h2>
-                <p class="max-w-4xl mx-auto text-gray-600 mb-8">
-                    This event masterfully fuses the intrigue of a dataset mystery with the accessible, gamified format of Bingo. Participants solve bite-sized ML tasks to unlock clues, transforming abstract exercises into a purposeful investigation and lowering the barrier to entry for data science.
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 justify-center items-center">
-                    <div class="bg-blue-50 p-6 rounded-xl md:col-span-1">
-                        <div class="text-6xl font-black text-[#3E92CC]">3</div>
-                        <p class="mt-2 font-semibold text-lg text-[#0A2463]">Days Event</p>
-                        <p class="text-sm text-gray-500">The challenge spans multiple days for in-depth exploration.</p>
-                    </div>
-                    <div class="bg-blue-50 p-6 rounded-xl md:col-span-1">
-                        <div class="text-6xl font-black text-[#3E92CC]">3</div>
-                        <p class="mt-2 font-semibold text-lg text-[#0A2463]">Hours Daily</p>
-                        <p class="text-sm text-gray-500">An intense, focused, and rewarding time-bound session each day.</p>
-                    </div>
-                    <div class="bg-red-50 p-6 rounded-xl md:col-span-1">
-                        <div class="text-6xl font-black text-[#D8315B]">100%</div>
-                        <p class="mt-2 font-semibold text-lg text-[#0A2463]">Beginner Friendly</p>
-                        <p class="text-sm text-gray-500">No complex setups required, open to all skill levels.</p>
-                    </div>
-                    <div class="bg-indigo-50 p-6 rounded-xl md:col-span-1">
-                        <div class="text-6xl font-black text-[#0A2463]">2-3</div>
-                        <p class="mt-2 font-semibold text-lg text-[#0A2463]">Members Per Team</p>
-                        <p class="text-sm text-gray-500">Fostering collaboration, teamwork, and peer learning.</p>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="blueprint" class="bg-white p-8 rounded-2xl shadow-md">
-                <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-6">The Challenge Blueprint</h2>
-                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-10">
-                    The event is built on a simple yet powerful two-part structure. Participants engage with a task grid to gain insights, which they then use to solve an overarching mystery, creating a cohesive and compelling narrative.
-                </p>
-                <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
-                    <div class="text-center p-6 border-2 border-dashed border-gray-300 rounded-lg w-full md:w-1/3">
-                        <div class="text-5xl mb-2">🧩</div>
-                        <h3 class="text-xl font-bold text-[#0A2463]">Part 1: The Bingo Grid</h3>
-                        <p class="text-gray-600 mt-2">A grid of micro-tasks covering data cleaning, visualization, and ML concepts.</p>
-                    </div>
-                    <div class="flow-arrow font-thin">→</div>
-                    <div class="text-center p-6 border-2 border-dashed border-gray-300 rounded-lg w-full md:w-1/3">
-                        <div class="text-5xl mb-2">🕵️</div>
-                        <h3 class="text-xl font-bold text-[#0A2463]">Part 2: The Dataset Mystery</h3>
-                        <p class="text-gray-600 mt-2">Use clues from the grid to deduce the real-world meaning of an anonymized dataset.</p>
-                    </div>
-                </div>
-            </section>
+<header class="hdr" id="hdr">
+  <div class="wrap hdr__in">
+    <a class="brand" href="#top"><i aria-hidden="true"></i><b>PlayAble</b></a>
+    <nav class="hdr__nav" aria-label="Sections">
+      <a href="#idea">The idea</a>
+      <a href="#features">Features</a>
+      <a href="#principles">Principles</a>
+      <a href="#model">Model</a>
+      <a href="#build">Build first</a>
+    </nav>
+    <a class="btn btn--p btn--sm" href="#features">18 concepts <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  </div>
+  <div class="rail" id="rail" aria-hidden="true"></div>
+</header>
 
-            <section id="detective-journey" class="bg-white p-8 rounded-2xl shadow-md">
-                <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-6">The Detective's Journey: Unveiling the Dataset Mystery</h2>
-                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-10">
-                    Each completed Bingo task is more than just a solved problem; it's a crucial piece of evidence in your data investigation. Teams will piece together these insights, moving from raw data to a clear understanding of the dataset's true nature.
-                </p>
-                <div class="flex flex-col items-center justify-center gap-6">
-                    <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 w-full">
-                        <div class="text-center p-4 bg-blue-50 rounded-lg shadow-sm w-full md:w-1/4">
-                            <div class="text-4xl mb-1">✅</div>
-                            <h3 class="font-semibold text-lg text-[#0A2463]">Bingo Task</h3>
-                            <p class="text-sm text-gray-600">e.g., "Identify Data Types"</p>
-                        </div>
-                        <div class="flow-arrow font-thin">→</div>
-                        <div class="text-center p-4 bg-indigo-50 rounded-lg shadow-sm w-full md:w-1/4">
-                            <div class="text-4xl mb-1">💡</div>
-                            <h3 class="font-semibold text-lg text-[#0A2463]">Data Insight</h3>
-                            <p class="text-sm text-gray-600">"Column 'X' is numerical, 'Y' is categorical."</p>
-                        </div>
-                        <div class="flow-arrow font-thin">→</div>
-                        <div class="text-center p-4 bg-red-50 rounded-lg shadow-sm w-full md:w-1/4">
-                            <div class="text-4xl mb-1">🔍</div>
-                            <h3 class="font-semibold text-lg text-[#0A2463]">Dataset Clue</h3>
-                            <p class="text-sm text-gray-600">"These types suggest a survey or transactional data."</p>
-                        </div>
-                    </div>
-                    <div class="text-center p-4 bg-green-50 rounded-lg shadow-sm w-full md:w-1/4">
-                        <div class="text-4xl mb-1">🔓</div>
-                        <h3 class="font-semibold text-lg text-[#0A2463]">Mystery Solved!</h3>
-                        <p class="text-sm text-gray-600">"The dataset is about customer churn prediction!"</p>
-                    </div>
-                </div>
-                <p class="max-w-3xl mx-auto text-center text-gray-600 mt-8">
-                    By systematically completing tasks like identifying missing values, plotting distributions, or calculating statistics, teams build a comprehensive profile of the dataset. This iterative process of discovery allows them to infer variable meanings, potential biases, and ultimately, the real-world context and purpose of the anonymized data.
-                </p>
+<main id="main">
 
-                <div class="mt-8 pt-8 border-t border-gray-200">
-                    <h3 class="text-2xl font-bold text-[#0A2463] mb-4 text-center">Examples of How Solving Tasks Unveils Dataset Clues</h3>
-                    <div class="overflow-x-auto mb-8">
-                        <table class="min-w-full bg-white rounded-lg shadow-sm text-sm">
-                            <thead class="bg-[#0A2463] text-white">
-                                <tr>
-                                    <th class="py-3 px-4 text-left whitespace-nowrap">Bingo Task</th>
-                                    <th class="py-3 px-4 text-left whitespace-nowrap">How It Reveals Clues</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-gray-700">
-                                <tr class="border-b border-gray-200">
-                                    <td class="py-3 px-4 whitespace-nowrap">Normalize numerical columns</td>
-                                    <td class="py-3 px-4">Highlights which values (e.g., income or age) are skewed or unusually spread</td>
-                                </tr>
-                                <tr class="border-b border-gray-200">
-                                    <td class="py-3 px-4 whitespace-nowrap">One-hot encode categorical</td>
-                                    <td class="py-3 px-4">Helps interpret hidden meaning behind labels like “B” (e.g., gender, location)</td>
-                                </tr>
-                                <tr class="border-b border-gray-200">
-                                    <td class="py-3 px-4 whitespace-nowrap">Correlation matrix</td>
-                                    <td class="py-3 px-4">Exposes which features are tied to the target column (e.g., “E”)</td>
-                                </tr>
-                                <tr class="border-b border-gray-200">
-                                    <td class="py-3 px-4 whitespace-nowrap">Find columns with high missing values</td>
-                                    <td class="py-3 px-4">Suggests unreliable features or noise (decoy detection)</td>
-                                </tr>
-                                <tr class="border-b border-gray-200">
-                                    <td class="py-3 px-4 whitespace-nowrap">Logistic Regression or Decision Tree</td>
-                                    <td class="py-3 px-4">Shows what features are most predictive of outcome — gives hints to purpose</td>
-                                </tr>
-                                <tr class="border-b border-gray-200">
-                                    <td class="py-3 px-4 whitespace-nowrap">Drop low-importance features</td>
-                                    <td class="py-3 px-4">Forces participants to filter out decoys and irrelevant data</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 px-4 whitespace-nowrap">Confusion Matrix</td>
-                                    <td class="py-3 px-4">Tells if the dataset is classifying something — like spam vs. not spam, or loan approved vs. denied</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p class="text-gray-600 mt-4 font-semibold">Example Outcome:</p>
-                    <p class="text-gray-600 mb-2">After solving half the Bingo grid, a team notices:</p>
-                    <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
-                        <li>Column “E” is predictable from income, loan status, and age</li>
-                        <li>Columns “F”, “G” and “H” don’t improve model accuracy</li>
-                    </ul>
-                    <p class="text-gray-600 font-semibold">They reason:</p>
-                    <p class="text-gray-600 italic">“This is likely a loan approval prediction dataset where we're predicting whether a user gets a loan based on demographics and income.”</p>
-                </div>
-            </section>
+<!-- ============================ HERO ============================ -->
+<section id="top" class="hero band" data-scheme="paper">
+  <div class="wrap">
+    <p class="eyebrow" style="margin-bottom:clamp(1.5rem,4vw,3rem)">Concept proposal</p>
+    <h1 class="hero__d">
+      <span>Play</span><span class="hero__mark">Able</span>
+    </h1>
+    <p class="hero__sub">Find. <em>/</em> Match. <em>/</em> Play.</p>
+    <p class="lead hero__p">A platform where physically challenged people can find <strong>nearby players, accessible sports facilities, coaches, events, and compatible teams</strong> based on their abilities and preferences.</p>
+    <div class="hero__cta">
+      <a class="btn btn--p" href="#features">Explore the concept</a>
+      <a class="btn btn--o" href="#build">What to build first</a>
+    </div>
+    <div class="hero__meta">
+      <div><b>Concepts</b><span class="num">18 numbered ideas</span></div>
+      <div><b>Core</b><span>Matching, accessibility, community</span></div>
+      <div><b>Status</b><span>Concept — not yet built</span></div>
+      <div><b>First release</b><span class="num">10 user + 6 admin features</span></div>
+    </div>
+  </div>
+</section>
 
-            <section id="event-structure" class="bg-white p-8 rounded-2xl shadow-md">
-                <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-6">Event Structure: Organizer + Participant Perspectives</h2>
-                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">
-                    This event is meticulously designed to provide a rich learning experience from both the organizer's setup and the participant's journey, ensuring seamless interaction and effective knowledge transfer.
-                </p>
+<!-- ============================ MARQUEE ============================ -->
+<div class="mq" data-scheme="dark" aria-hidden="true">
+  <div class="mq__t" id="mq1"></div>
+</div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 class="text-2xl font-bold text-[#0A2463] mb-4">Participant View: The Experience</h3>
-                        <p class="text-gray-600 mb-4">
-                            Participants are handed a Google Colab Notebook containing:
-                        </p>
-                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
-                            <li>A mystery dataset with partial/noisy column names and decoy data</li>
-                            <li>A Bingo Grid of ML micro-tasks (e.g., normalization, encoding, train-test split)</li>
-                            <li>Submission guidelines and scratchpad space</li>
-                        </ul>
-                        <p class="text-gray-600 mb-2">Their mission:</p>
-                        <ul class="list-disc list-inside text-gray-600 ml-4">
-                            <li>Solve rows/columns in the Bingo Grid to score points</li>
-                            <li>Simultaneously deduce the purpose of the dataset</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-[#0A2463] mb-4">Organizer View: Flow & Facilitation</h3>
-                        <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Setup Checklist:</h4>
-                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
-                            <li>1x Colab template with markdown instructions and bingo grid cells</li>
-                            <li>1-2 noisy CSVs per team (different themes optional)</li>
-                            <li>Pre-filled cells for loading data and starter guidance</li>
-                            <li>Google Forms for registration and submission</li>
-                        </ul>
-                        <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Organizer Goals:</h4>
-                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
-                            <li>Make sure each task gradually reveals insights about the dataset</li>
-                            <li>Decoys should be misleading but fair (not impossible to eliminate)</li>
-                            <li>Reward not just speed, but reasoning clarity in final answers</li>
-                        </ul>
-                    </div>
-                </div>
-                <h4 class="text-xl font-semibold text-[#0A2463] mb-2 mt-4 text-center">Example Organizer Tips:</h4>
-                <ul class="list-disc list-inside text-gray-600 mb-4 mx-auto max-w-2xl text-left">
-                    <li>Include optional hints for penalty points (e.g., “Column F is junk”)</li>
-                    <li>Track common patterns in submissions to guide feedback</li>
-                    <li>Scorecards should award: Task completion, Accuracy of use-case guess, Explanation depth</li>
-                </ul>
-            </section>
+<!-- ============================ BIG IDEA ============================ -->
+<section id="idea" class="band" data-scheme="paper" data-nav>
+  <div class="wrap">
+    <div class="shead" data-reveal>
+      <span class="shead__n">00</span><i class="shead__r"></i><span class="shead__t eyebrow">The big idea</span>
+    </div>
+    <blockquote class="idea__q" data-reveal>
+      <i>“</i>The easiest way for people with different abilities to find someone nearby to play with, at a venue they know is genuinely accessible.<i>”</i>
+    </blockquote>
+    <div class="idea__foot two" data-reveal>
+      <p class="quiet">And the <strong>Accessibility Score</strong> + <strong>SmartMatch</strong> + <strong>Partner Finder</strong> + <strong>community-verified accessibility data</strong> could make the concept genuinely differentiated.</p>
+      <ul class="bul">
+        <li>Match on ability and preference, not just location.</li>
+        <li>Score every venue for accessibility, verified by the people who go there.</li>
+        <li>Focus on what someone <em>can play</em> — never on what they can't.</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-            <section id="daily-journey" class="my-16">
-                <h2 class="text-3xl font-bold text-center mb-12 text-[#0A2463]">🗺️ Your 3-Day Discovery Journey</h2>
-                <p class="text-lg text-center max-w-3xl mx-auto text-gray-600 mb-12">
-                    Each day brings a new set of challenges and deeper insights into the mystery dataset. Progress through the days to unlock the full story!
-                </p>
+<!-- ============================ STATS ============================ -->
+<section class="band band--tight" data-scheme="dark">
+  <div class="wrap">
+    <div class="hgrid hgrid--4" data-reveal>
+      <div class="stat"><b class="count" data-to="18">0</b><span>Numbered<br>concepts</span></div>
+      <div class="stat"><b class="count" data-to="12">0</b><span>Adaptive sports<br>listed</span></div>
+      <div class="stat stat--hi"><b class="count" data-to="10">0</b><span>MVP features,<br>user side</span></div>
+      <div class="stat"><b class="count" data-to="7">0</b><span>Potential revenue<br>streams</span></div>
+    </div>
+  </div>
+</section>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Day 1 Card -->
-                    <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-full">
-                        <h3 class="text-2xl font-bold text-[#0A2463] mb-4 text-center">Day 1: Warmup Challenge</h3>
-                        <p class="text-gray-600 mb-4 flex-grow">
-                            Focus on basic data exploration tasks on a mystery dataset (e.g., `mystery_data_v1.csv`). Start forming a mental model of what the data could represent.
-                        </p>
-                        <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Sample Bingo Tasks:</h4>
-                        <ul class="list-disc list-inside text-gray-600 mb-4">
-                            <li>Total & Avg of Numeric Column</li>
-                            <li>Histogram of Numeric Column</li>
-                            <li>Count per Categorical Column</li>
-                            <li>Plot Numeric over Index</li>
-                            <li>Check for Missing Values</li>
-                        </ul>
-                        <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Day 1 Dataset Legend:</h4>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm text-left text-gray-600 mb-4">
-                                <thead class="text-xs text-gray-700 uppercase bg-blue-50">
-                                    <tr>
-                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Column Name</th>
-                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Type</th>
-                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Purpose</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <td class="px-2 py-1 whitespace-nowrap">feature_A</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Numeric</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Continuous, can show skew</td>
-                                    </tr>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <td class="px-2 py-1 whitespace-nowrap">feature_B</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Categorical</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Grouping label</td>
-                                    </tr>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <td class="px-2 py-1 whitespace-nowrap">feature_C</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Numeric</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Score-like, with nulls</td>
-                                    </tr>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <td class="px-2 py-1 whitespace-nowrap">feature_D</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Text/Code</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Decoy noise</td>
-                                    </tr>
-                                    <tr class="bg-white">
-                                        <td class="px-2 py-1 whitespace-nowrap">feature_E</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Numeric</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Discrete label (hidden target)</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <p class="text-sm text-center text-[#3E92CC] mt-auto">Mock Dataset: <a href="https://docs.google.com/spreadsheets/d/12BclkMWu4c3UC37XJ6eKInYaEXUe8Oh6ogoA8IGJItE/edit?usp=sharing" target="_blank" class="underline">Link</a></p>
-                    </div>
+<!-- ============================ CONTENTS ============================ -->
+<section id="features" class="band" data-scheme="paper" data-nav>
+  <div class="wrap">
+    <div class="shead" data-reveal>
+      <span class="shead__n">—</span><i class="shead__r"></i><span class="shead__t eyebrow">Contents</span>
+    </div>
+    <h2 data-reveal style="margin-bottom:clamp(1.5rem,1rem + 2vw,2.5rem)">Eighteen concepts</h2>
+    <nav class="toc" id="toc" aria-label="The eighteen concepts" data-reveal></nav>
+  </div>
+</section>
 
-                    <!-- Day 2 Card -->
-                    <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-full">
-                        <h3 class="text-2xl font-bold text-[#0A2463] mb-4 text-center">Day 2: Feature Analysis & Modeling</h3>
-                        <p class="text-gray-600 mb-4 flex-grow">
-                            Work with an expanded dataset, introducing new features (noise, IDs) and revealing the target column. Sharpen data cleaning and reasoning skills.
-                        </p>
-                        <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Sample Bingo Tasks:</h4>
-                        <ul class="list-disc list-inside text-gray-600 mb-4">
-                            <li>Identify & Explain Useless Cols</li>
-                            <li>Identify Outliers in Numeric Col</li>
-                            <li>Classify Columns by Data Type</li>
-                            <li>Correlation Heatmap (Numeric)</li>
-                            <li>Propose Likely Target Column</li>
-                        </ul>
-                        <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Day 2 Dataset Legend:</h4>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm text-left text-gray-600 mb-4">
-                                <thead class="text-xs text-gray-700 uppercase bg-blue-50">
-                                    <tr>
-                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Column Name</th>
-                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Type</th>
-                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Purpose</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <td class="px-2 py-1 whitespace-nowrap">feature_a</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Numeric</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Continuous</td>
-                                    </tr>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <td class="px-2 py-1 whitespace-nowrap">feature_b</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Categorical</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Grouping</td>
-                                    </tr>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <td class="px-2 py-1 whitespace-nowrap">feature_c</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Numeric</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Decoy (mostly nulls)</td>
-                                    </tr>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <td class="px-2 py-1 whitespace-nowrap">id_code</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Text/Code</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Unique ID (not useful)</td>
-                                    </tr>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <td class="px-2 py-1 whitespace-nowrap">feature_d</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Numeric</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Score-like (0-100)</td>
-                                    </tr>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <td class="px-2 py-1 whitespace-nowrap">feature_e</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Numeric</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Decoy (constant)</td>
-                                    </tr>
-                                    <tr class="bg-white">
-                                        <td class="px-2 py-1 whitespace-nowrap">outcome</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Numeric</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Binary target (0 or 1)</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <p class="text-sm text-center text-[#3E92CC] mt-auto">Mock Dataset: <a href="https://docs.google.com/spreadsheets/d/1kmV-J1eOIC3DRzFALrx6junn2iD-Xl6bgWRHxEXfnkQ/edit?usp=sharing" target="_blank" class="underline">Link</a></p>
-                    </div>
-
-                    <!-- Day 3 Card -->
-                    <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-full">
-                        <h3 class="text-2xl font-bold text-[#0A2463] mb-4 text-center">Day 3: Final Challenge: Interpret & Deliver</h3>
-                        <p class="text-gray-600 mb-4 flex-grow">
-                            All feature names are revealed, and the real-world context is explained. Focus shifts to building, interpreting, and communicating your final ML model to stakeholders.
-                        </p>
-                        <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Sample Bingo Tasks:</h4>
-                        <ul class="list-disc list-inside text-gray-600 mb-4">
-                            <li>Refactor Data Cleaning Steps</li>
-                            <li>Evaluate Final Model (Acc, F1, etc.)</li>
-                            <li>Explain Top Predictive Features</li>
-                            <li>Propose Real Use Case</li>
-                            <li>Interpret Model for Non-Tech People</li>
-                        </ul>
-                        <h4 class="text-xl font-semibold text-[#0A2463] mb-2">Day 3 Dataset Legend:</h4>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm text-left text-gray-600 mb-4">
-                                <thead class="text-xs text-gray-700 uppercase bg-blue-50">
-                                    <tr>
-                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Column Name</th>
-                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <td class="px-2 py-1 whitespace-nowrap">age</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Age of the user (numerical)</td>
-                                    </tr>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <td class="px-2 py-1 whitespace-nowrap">city_group</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Type of city user belongs to (categorical)</td>
-                                    </tr>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <td class="px-2 py-1 whitespace-nowrap">last_activity_score</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Engagement score; has missing values</td>
-                                    </tr>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <td class="px-2 py-1 whitespace-nowrap">user_id</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Unique user identifier (not for modeling)</td>
-                                    </tr>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <td class="px-2 py-1 whitespace-nowrap">satisfaction_score</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">User’s satisfaction level (0–100)</td>
-                                    </tr>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <td class="px-2 py-1 whitespace-nowrap">static_flag</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Constant value = 10 (decoy)</td>
-                                    </tr>
-                                    <tr class="bg-white">
-                                        <td class="px-2 py-1 whitespace-nowrap">churn_status</td>
-                                        <td class="px-2 py-1 whitespace-nowrap">Target variable: 1 = churned, 0 = retained</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <p class="text-sm text-center text-[#3E92CC] mt-auto">Final Dataset: <a href="https://docs.google.com/spreadsheets/d/1EFoogx4Ss0LizT_SX58_VgodOwUfoyo7y4uIk3up77w/edit?usp=sharing" target="_blank" class="underline">Link</a></p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="scoring" class="my-16">
-                <h2 class="text-3xl font-bold text-center mb-12 text-[#0A2463]">📊 Scoring for the Event: How You're Judged</h2>
-                <p class="text-lg text-center max-w-3xl mx-auto text-gray-600 mb-8">
-                    Your performance will be evaluated across all three days, rewarding both technical completion and insightful analysis.
-                </p>
-                <div class="grid grid-cols-1 gap-12">
-                    <div class="bg-white rounded-2xl shadow-lg p-8">
-                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0A2463]">Detailed Scoring Rubric</h3>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm text-left text-gray-600">
-                                <thead class="text-xs text-gray-700 uppercase bg-blue-50">
-                                    <tr>
-                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Day</th>
-                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Category</th>
-                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Points</th>
-                                        <th scope="col" class="px-2 py-1 whitespace-nowrap">Notes</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 font-bold whitespace-nowrap" rowspan="3">Day 1</td><td class="px-2 py-1 whitespace-nowrap">Data exploration tasks completed</td><td class="px-2 py-1 whitespace-nowrap">10 pts</td><td class="px-2 py-1 whitespace-nowrap">Based on how many bingo tiles completed with valid outputs</td></tr>
-                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Basic insight / dataset guess</td><td class="px-2 py-1 whitespace-nowrap">5 pts</td><td class="px-2 py-1 whitespace-nowrap">Assessed for thoughtfulness and plausibility</td></tr>
-                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Submission on time</td><td class="px-2 py-1 whitespace-nowrap">5 pts</td><td class="px-2 py-1 whitespace-nowrap">Based on form timestamp</td></tr>
-                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 font-bold whitespace-nowrap" rowspan="4">Day 2</td><td class="px-2 py-1 whitespace-nowrap">Extended analysis + new tile completion</td><td class="px-2 py-1 whitespace-nowrap">10 pts</td><td class="px-2 py-1 whitespace-nowrap">E.g., outlier detection, handling decoys, variable types</td></tr>
-                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Initial modeling attempt (even if basic)</td><td class="px-2 py-1 whitespace-nowrap">5 pts</td><td class="px-2 py-1 whitespace-nowrap">If they tried a valid ML model (LogReg, RF, etc.)</td></tr>
-                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Insight into target/feature roles</td><td class="px-2 py-1 whitespace-nowrap">5 pts</td><td class="px-2 py-1 whitespace-nowrap">Understanding of feature impact, target definition</td></tr>
-                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Submission on time</td><td class="px-2 py-1 whitespace-nowrap">5 pts</td><td class="px-2 py-1 whitespace-nowrap">Based on timestamp</td></tr>
-                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 font-bold whitespace-nowrap" rowspan="5">Day 3</td><td class="px-2 py-1 whitespace-nowrap">Final model performance (accuracy/f1/ROC)</td><td class="px-2 py-1 whitespace-nowrap">15 pts</td><td class="px-2 py-1 whitespace-nowrap">Benchmark based on class balance & difficulty</td></tr>
-                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Interpretation of model & top features</td><td class="px-2 py-1 whitespace-nowrap">10 pts</td><td class="px-2 py-1 whitespace-nowrap">Did they explain why certain features mattered?</td></tr>
-                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Real-world framing of model</td><td class="px-2 py-1 whitespace-nowrap">10 pts</td><td class="px-2 py-1 whitespace-nowrap">Use-case understanding and practical deployment framing</td></tr>
-                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Clarity of final notebook + reflection</td><td class="px-2 py-1 whitespace-nowrap">10 pts</td><td class="px-2 py-1 whitespace-nowrap">Readable, complete, logical flow</td></tr>
-                                    <tr class="bg-white border-b border-gray-200"><td class="px-2 py-1 whitespace-nowrap">Submission before deadline</td><td class="px-2 py-1 whitespace-nowrap">5 pts</td><td class="px-2 py-1 whitespace-nowrap">Encourages timely wrap-up</td></tr>
-                                    <tr class="bg-white"><td class="px-2 py-1 font-bold whitespace-nowrap">Bonus</td><td class="px-2 py-1 whitespace-nowrap">Engaging insight, surprising idea or creativity</td><td class="px-2 py-1 whitespace-nowrap">+5 pts</td><td class="px-2 py-1 whitespace-nowrap">Optional bonus for standout teams</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-2xl shadow-lg p-8">
-                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0A2463]">Scoring Breakdown by Day</h3>
-                        <div class="chart-container">
-                            <canvas id="scoringSummaryChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="participant-journey" class="my-16 bg-white p-8 rounded-2xl shadow-md">
-                <h2 class="text-3xl font-bold text-center text-[#0A2463] mb-6">Participant Journey: Step-by-Step Tactics & Learning Gains</h2>
-                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-8">
-                    This section delves deeper into the practical strategies participants employ and the invaluable machine learning understanding they gain at each phase of the "Data Detectives & ML Bingo" challenge.
-                </p>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">1. First Contact with the Dataset</h3>
-                        <p class="text-gray-600 mb-3">Upon opening the Colab notebook, participants encounter:</p>
-                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
-                            <li>A dataset with cryptic column names (e.g., A, B, C)</li>
-                            <li>A few clearly noisy or irrelevant columns (e.g., uniform values, random strings)</li>
-                            <li>A Bingo grid of foundational ML tasks</li>
-                        </ul>
-                        <p class="font-semibold text-[#0A2463] mb-2">What They Do:</p>
-                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
-                            <li>Scan data types and distributions using `.info()`, `.describe()`, `.value_counts()`</li>
-                            <li>Try basic visualizations (histograms, pairplots) to spot patterns</li>
-                        </ul>
-                        <p class="font-semibold text-[#0A2463] mb-2">What They Learn:</p>
-                        <ul class="list-disc list-inside text-gray-600 ml-4">
-                            <li>How to profile a dataset from scratch</li>
-                            <li>The importance of data types, nulls, and variance</li>
-                            <li>Early exposure to data noise and real-world messiness</li>
-                        </ul>
-                    </div>
-
-                    <div class="bg-indigo-50 p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">2. Tackling Initial Bingo Tasks</h3>
-                        <p class="text-gray-600 mb-3">They begin solving tasks like:</p>
-                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
-                            <li>Normalization: Scaling numerical columns to a 0–1 range</li>
-                            <li>One-hot encoding: Transforming hidden categorical columns</li>
-                            <li>Missing values: Identifying incomplete or unhelpful columns</li>
-                        </ul>
-                        <p class="font-semibold text-[#0A2463] mb-2">What They Do:</p>
-                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
-                            <li>Use `MinMaxScaler`, `pd.get_dummies()`, `.isnull().sum()`</li>
-                            <li>Drop, impute, or highlight problematic columns</li>
-                        </ul>
-                        <p class="font-semibold text-[#0A2463] mb-2">What They Learn:</p>
-                        <ul class="list-disc list-inside text-gray-600 ml-4">
-                            <li>Preprocessing essentials</li>
-                            <li>Importance of clean inputs for ML</li>
-                            <li>Detecting and ignoring decoy data — a key skill in real projects</li>
-                        </ul>
-                    </div>
-
-                    <div class="bg-red-50 p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">3. Experimentation & Exploration</h3>
-                        <p class="text-gray-600 mb-3">As they progress:</p>
-                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
-                            <li>They try creating correlation heatmaps to identify predictive links</li>
-                            <li>Attempt simple Logistic Regression or Decision Tree models</li>
-                            <li>Evaluate model using confusion matrix, accuracy score, etc.</li>
-                        </ul>
-                        <p class="font-semibold text-[#0A2463] mb-2">What They Do:</p>
-                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
-                            <li>Test if feature A or C helps predict label E</li>
-                            <li>Remove low-importance columns</li>
-                            <li>Adjust splits and re-test</li>
-                        </ul>
-                        <p class="font-semibold text-[#0A2463] mb-2">What They Learn:</p>
-                        <ul class="list-disc list-inside text-gray-600 ml-4">
-                            <li>Role of feature importance in modeling</li>
-                            <li>How model metrics reflect data quality and relevance</li>
-                            <li>That data science involves iterative hypothesis testing</li>
-                        </ul>
-                    </div>
-
-                    <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">4. Cracking the Dataset Mystery</h3>
-                        <p class="text-gray-600 mb-3">Through this process, participants begin connecting dots:</p>
-                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
-                            <li>"Column A might be income — values are in lakhs"</li>
-                            <li>"Column E must be binary — our classifier works well on it"</li>
-                            <li>"Decoy column F has no variance — safe to ignore"</li>
-                        </ul>
-                        <p class="font-semibold text-[#0A2463] mb-2">They now write a reasoned guess:</p>
-                        <p class="text-gray-600 italic mb-4">“We believe this is a loan approval dataset where income, job type, and credit score predict whether a loan is granted (column E).”</p>
-                        <p class="font-semibold text-[#0A2463] mb-2">What They Learn:</p>
-                        <ul class="list-disc list-inside text-gray-600 ml-4">
-                            <li>Data storytelling — making sense of raw numbers</li>
-                            <li>How ML isn't just coding, but also interpretation</li>
-                            <li>Confidence in drawing conclusions from ambiguous data</li>
-                        </ul>
-                    </div>
-
-                    <div class="bg-indigo-50 p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-bold text-[#0A2463] mb-3">5. Reflection & Team Learning</h3>
-                        <p class="text-gray-600 mb-3">At the end, teams submit:</p>
-                        <ul class="list-disc list-inside text-gray-600 mb-4 ml-4">
-                            <li>Their completed notebook</li>
-                            <li>Reasoning behind dataset purpose</li>
-                            <li>Any insights or challenges faced</li>
-                        </ul>
-                        <p class="text-gray-600 mb-2">Some teams may be right, others partially right, but all will have:</p>
-                        <ul class="list-disc list-inside text-gray-600 ml-4">
-                            <li>Practiced the full ML lifecycle — from loading data to drawing conclusions</li>
-                            <li>Learned to collaborate under uncertainty</li>
-                            <li>Built intuition about datasets through structured exploration</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="mt-8 pt-8 border-t border-gray-200">
-                    <h3 class="text-2xl font-bold text-center text-[#0A2463] mb-4">Benefits in Summary (For Participants)</h3>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white rounded-lg shadow-sm text-sm">
-                            <thead class="bg-[#0A2463] text-white">
-                                <tr>
-                                    <th class="py-3 px-4 text-left whitespace-nowrap">Skill Gained</th>
-                                    <th class="py-3 px-4 text-left whitespace-nowrap">How the Event Teaches It</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-gray-700">
-                                <tr class="border-b border-gray-200">
-                                    <td class="py-3 px-4 whitespace-nowrap">Data Cleaning</td>
-                                    <td class="py-3 px-4">Tasks like missing value imputation, normalization</td>
-                                </tr>
-                                <tr class="border-b border-gray-200">
-                                    <td class="py-3 px-4 whitespace-nowrap">Feature Engineering</td>
-                                    <td class="py-3 px-4">Encoding, correlation analysis, dropping decoys</td>
-                                </tr>
-                                <tr class="border-b border-gray-200">
-                                    <td class="py-3 px-4 whitespace-nowrap">Model Thinking</td>
-                                    <td class="py-3 px-4">Training simple classifiers, understanding results</td>
-                                </tr>
-                                <tr class="border-b border-gray-200">
-                                    <td class="py-3 px-4 whitespace-nowrap">Data Intuition</td>
-                                    <td class="py-3 px-4">Making sense of anonymized columns, decoding structure</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 px-4 whitespace-nowrap">Collaboration</td>
-                                    <td class="py-3 px-4">Team-based problem solving and submission</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <section id="github-integration" class="my-16">
-                <h2 class="text-3xl font-bold text-center mb-8 text-[#0A2463]">🔗 GitHub: The Central Hub</h2>
-                <p class="text-lg text-center max-w-3xl mx-auto text-gray-600 mb-12">
-                    GitHub will serve as the central public reference hub for the event, hosting datasets and links to the Google Colab notebooks and submission forms.
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <div class="bg-white rounded-2xl shadow-lg p-8">
-                        <h3 class="2xl font-bold text-center mb-6 text-[#0A2463]">Repo Structure</h3>
-                        <div class="font-mono text-sm bg-gray-50 p-4 rounded-lg overflow-auto">
-                            <div class="github-folder">ml-bingo-event/</div>
-                            <div class="github-file ml-6">README.md</div>
-                            <div class="github-folder ml-6">datasets/</div>
-                            <div class="github-file ml-12">day1_dataset.csv</div>
-                            <div class="github-file ml-12">day2_dataset.csv</div>
-                            <div class="github-file ml-12">day3_dataset.csv</div>
-                            <div class="github-folder ml-6">links/</div>
-                            <div class="github-file ml-12">day1_submission_form.txt</div>
-                            <div class="github-file ml-12">day2_submission_form.txt</div>
-                            <div class="github-file ml-12">day3_submission_form.txt</div>
-                            <div class="github-file ml-12">day1_colab_link.txt</div>
-                            <div class="github-file ml-12">day2_colab_link.txt</div>
-                            <div class="github-file ml-12">day3_colab_link.txt</div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col justify-center items-center">
-                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0A2463]">GitHub's Role</h3>
-                        <p class="text-center text-gray-600 mb-4">
-                            GitHub acts as the central hub for all event resources. Participants can easily access datasets, Colab notebook templates, and submission links directly from the repository.
-                        </p>
-                        <p class="text-center text-gray-600">
-                            This streamlines the event flow, ensuring everyone has consistent access to the latest materials.
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            <footer class="text-center p-6 mt-8 bg-gray-200">
-                <p class="text-sm text-gray-600">An infographic inspired by the "Data Detectives & ML Bingo" event concept.</p>
-                <p class="text-sm text-gray-600 mt-2">Prepared by: Yashovardhan Poddar | Club: Leads CLub</p>
-            </footer>
+<!-- ============================ 01 PLAYER MATCHING ============================ -->
+<section id="f1" class="band" data-scheme="sage">
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">01</span><i class="shead__r"></i><span class="shead__t eyebrow">Core feature</span></div>
+    <div class="two two--wide">
+      <div data-reveal>
+        <h2>Player matching</h2>
+        <p class="lead" style="margin-top:1.25rem">Instead of simply matching by location, match people based on ability, preference and availability.</p>
+        <ul class="chips" style="margin-top:1.75rem" aria-label="Matching criteria">
+          <li class="chip" style="pointer-events:none">Distance</li>
+          <li class="chip" style="pointer-events:none">Sport</li>
+          <li class="chip" style="pointer-events:none">Skill level</li>
+          <li class="chip" style="pointer-events:none">Age group</li>
+          <li class="chip" style="pointer-events:none">Mobility / ability requirements</li>
+          <li class="chip" style="pointer-events:none">Preferred playing style</li>
+          <li class="chip" style="pointer-events:none">Availability</li>
+          <li class="chip" style="pointer-events:none">Singles / doubles / team</li>
+          <li class="chip" style="pointer-events:none">Preferred communication method</li>
+        </ul>
+      </div>
+      <div class="demo" data-reveal>
+        <div class="demo__h"><span class="tag">Matching</span><span class="label mono">Try it</span></div>
+        <div class="demo__b">
+          <div style="display:grid;gap:1rem;grid-template-columns:1fr 1fr">
+            <p class="field"><label class="label" for="m-ab">Ability</label><select id="m-ab"><option>Wheelchair user</option><option>Amputee</option><option>Visually impaired</option><option>Other physical limitation</option></select></p>
+            <p class="field"><label class="label" for="m-sp">Sport</label><select id="m-sp"><option>Badminton</option><option>Basketball</option><option>Table tennis</option><option>Swimming</option></select></p>
+            <p class="field"><label class="label" for="m-sk">Skill level</label><select id="m-sk"><option>Beginner</option><option selected>Intermediate</option><option>Advanced</option></select></p>
+            <p class="field"><label class="label" for="m-di">Distance</label><select id="m-di"><option>2 km</option><option selected>5 km</option><option>10 km</option></select></p>
+          </div>
+          <button class="btn btn--p" id="m-go" style="margin-top:1.25rem;width:100%">Find players</button>
+          <p class="res" id="m-res" role="status" aria-live="polite"><span class="dot" aria-hidden="true"></span><b>12 compatible players found nearby.</b></p>
         </div>
-    </main>
+        <div class="demo__f">
+          <ul class="flow"><li>Challenge</li><li>Chat</li><li>Create game</li><li>Play</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script>
-        // Helper function to process labels for Chart.js to handle multi-line display
-        const processLabel = (label) => {
-            const maxLength = 16;
-            if (label.length <= maxLength) {
-                return label;
-            }
-            const words = label.split(' ');
-            const lines = [];
-            let currentLine = '';
-            for (const word of words) {
-                if ((currentLine + ' ' + word).trim().length > maxLength) {
-                    lines.push(currentLine.trim());
-                    currentLine = word;
-                } else {
-                    currentLine = (currentLine + ' ' + word).trim();
-                }
-            }
-            if (currentLine) {
-                lines.push(currentLine.trim());
-            }
-            return lines;
-        };
-        
-        // Common tooltip callback for Chart.js
-        const tooltipCallback = {
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        title: function(tooltipItems) {
-                            const item = tooltipItems[0];
-                            let label = item.chart.data.labels[item.dataIndex];
-                            if (Array.isArray(label)) {
-                                return label.join(' ');
-                            } else {
-                                return label;
-                            }
-                        }
-                    }
-                },
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        padding: 20,
-                        font: {
-                            size: 14
-                        }
-                    }
-                }
-            }
-        };
+<!-- ============================ 02 VENUE DISCOVERY ============================ -->
+<section id="f2" class="band" data-scheme="paper">
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">02</span><i class="shead__r"></i><span class="shead__t eyebrow">Biggest differentiator</span></div>
+    <div class="two">
+      <div data-reveal>
+        <h2>Accessibility-first venue discovery</h2>
+        <p class="lead" style="margin-top:1.25rem">Don't just show sports venues. Give every venue an <strong>Accessibility Score</strong>.</p>
+        <p class="quiet" style="margin-top:1.25rem">Even better: let players verify the accessibility information with photos. That makes the data much more trustworthy.</p>
+      </div>
+      <div class="demo" data-reveal>
+        <div class="demo__h"><span class="tag">Venue</span><span class="label mono">Toggle a feature</span></div>
+        <div class="demo__b">
+          <h3>ABC Sports Arena</h3>
+          <p style="display:flex;align-items:center;gap:.4rem;margin-top:.6rem;font-size:var(--t-sm)">
+            <svg class="ic" aria-hidden="true" style="color:var(--warn-text)"><use href="#i-star"/></svg>
+            <span class="mono">4.6</span>
+          </p>
+          <div class="venue__score" style="margin-top:1.5rem">
+            <b><span id="v-score" class="num">8.5</span><i>/10</i></b>
+            <p class="label" style="padding-bottom:.5rem">
+              <svg class="ic" aria-hidden="true"><use href="#i-acc"/></svg> Accessibility
+            </p>
+          </div>
+          <div class="meter" aria-hidden="true"><i id="v-bar" style="width:85%"></i></div>
+          <ul class="feat" id="v-list" style="margin-top:1.5rem"></ul>
+          <p class="res" id="v-res" role="status" aria-live="polite"><span class="dot" aria-hidden="true"></span><b>5 of 7 accessibility features present</b></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        // Initialize charts after the DOM has fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            // Chart for Task Distribution (Doughnut Chart)
-            const taskCanvas = document.getElementById('taskDistributionChart');
-            if (taskCanvas) {
-                const taskCtx = taskCanvas.getContext('2d');
-                new Chart(taskCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: [
-                            processLabel('Data Cleaning & Preprocessing'),
-                            processLabel('Exploratory Data Analysis (EDA)'),
-                            processLabel('Theoretical Understanding'),
-                            processLabel('Data Visualization')
-                        ],
-                        datasets: [{
-                            label: 'Task Distribution',
-                            data: [40, 25, 15, 20], // Example distribution based on common ML tasks
-                            backgroundColor: [
-                                '#3E92CC', // Medium Blue
-                                '#0A2463', // Dark Blue
-                                '#D8315B', // Red/Pink
-                                '#5C8F94'  // Teal/Green
-                            ],
-                            borderColor: '#F8F9FA', // Light Gray background color for borders
-                            borderWidth: 4,
-                            hoverOffset: 8
-                        }]
-                    },
-                    options: {
-                        ...tooltipCallback,
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        cutout: '60%',
-                    }
-                });
-            } else {
-                console.error("Task distribution chart canvas not found!");
-            }
+<!-- ============================ 03 ADAPTIVE SPORTS ============================ -->
+<section id="f3" class="band" data-scheme="tint">
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">03</span><i class="shead__r"></i><span class="shead__t eyebrow">Not just conventional sports</span></div>
+    <h2 data-reveal>Adaptive sports filter</h2>
+    <p class="lead" data-reveal style="margin-top:1.25rem">Users select <strong>“Sports I can play”</strong> — rather than just “sports I like.”</p>
+    <div data-reveal style="margin-top:clamp(1.75rem,1rem + 2.5vw,2.75rem)">
+      <ul class="chips" id="sportChips" aria-label="Adaptive sports"></ul>
+      <p class="res" id="s-res" role="status" aria-live="polite" style="max-width:32rem"><span class="dot" aria-hidden="true"></span><b><span id="s-n" class="num">0</span> sports selected</b></p>
+      <p class="tiny" style="margin-top:1rem">…and more.</p>
+    </div>
+  </div>
+</section>
 
+<!-- ============================ 04 CREATE A GAME ============================ -->
+<section id="f4" class="band" data-scheme="paper">
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">04</span><i class="shead__r"></i><span class="shead__t eyebrow">Make it effortless</span></div>
+    <div class="two two--wide">
+      <div data-reveal>
+        <h2>Create a game in 30&nbsp;seconds</h2>
+        <p class="lead" style="margin-top:1.25rem">Make game creation extremely simple.</p>
+        <p class="quiet" style="margin-top:1.25rem">The system can automatically notify suitable nearby players.</p>
+      </div>
+      <div class="demo" data-reveal>
+        <div class="demo__h"><span class="tag">Create game</span><span class="label mono" id="g-timer">00:30</span></div>
+        <div class="demo__b">
+          <ul class="rows" id="g-list"></ul>
+          <button class="btn btn--p" style="width:100%;margin-top:1.25rem" id="g-join">Join game</button>
+          <p class="res" id="g-res" role="status" aria-live="polite" hidden><span class="dot" aria-hidden="true"></span><b>Nearby players notified.</b></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-            // Chart for Scoring Breakdown (Horizontal Bar Chart)
-            const scoringCanvas = document.getElementById('scoringSummaryChart');
-            if (scoringCanvas) {
-                const scoringCtx = scoringCanvas.getContext('2d');
-                new Chart(scoringCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: [
-                            processLabel('Day 1 Points'),
-                            processLabel('Day 2 Points'),
-                            processLabel('Day 3 Points'),
-                            processLabel('Bonus Points')
-                        ],
-                        datasets: [{
-                            label: 'Maximum Points',
-                            data: [20, 25, 50, 5], // Data from the provided scoring breakdown
-                            backgroundColor: [
-                                '#3E92CC', // Medium Blue
-                                '#0A2463', // Dark Blue
-                                '#3E92CC', // Medium Blue
-                                '#D8315B'  // Red/Pink
-                            ],
-                            borderRadius: 8,
-                            barThickness: 'flex',
-                            maxBarThickness: 50,
-                        }]
-                    },
-                    options: {
-                        ...tooltipCallback,
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        indexAxis: 'y', // Make it a horizontal bar chart
-                        scales: {
-                            x: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Points',
-                                    color: '#4b5563'
-                                },
-                                ticks: {
-                                    color: '#4b5563',
-                                    font: {
-                                        size: 14,
-                                        weight: '600'
-                                    }
-                                },
-                                grid: {
-                                    display: false, // Hide x-axis grid lines
-                                    drawBorder: false,
-                                }
-                            },
-                            y: {
-                                ticks: {
-                                    color: '#4b5563',
-                                    font: {
-                                        size: 14,
-                                        weight: '600'
-                                    }
-                                },
-                                grid: {
-                                    display: false, // Hide y-axis grid lines
-                                    drawBorder: false,
-                                }
-                            }
-                        },
-                        plugins: {
-                            ...tooltipCallback.plugins,
-                            legend: {
-                                display: false // Hide legend for this chart
-                            }
-                        }
-                    }
-                });
-            } else {
-                console.error("Scoring summary chart canvas not found!");
-            }
+<!-- ============================ 05 PARTNER ============================ -->
+<section id="f5" class="band" data-scheme="dark">
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">05</span><i class="shead__r"></i><span class="shead__t eyebrow">Could be the killer feature</span></div>
+    <div class="two">
+      <div data-reveal>
+        <h2>“I need a partner”</h2>
+        <p class="lead" style="margin-top:1.25rem">Someone wants to play badminton but doesn't have a partner. They tap one button.</p>
+        <p class="quiet" style="margin-top:1.25rem">The system searches nearby users based on <strong>location + sport + skill + availability + accessibility requirements</strong>.</p>
+        <p class="quiet" style="margin-top:1rem">This is more interesting than simply having a social network.</p>
+      </div>
+      <div data-reveal>
+        <button class="btn btn--p" id="p-go" style="width:100%;font-size:var(--t-sm);padding:22px 24px 20px">
+          <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg> Find me a partner
+        </button>
+        <p class="res" id="p-res" role="status" aria-live="polite" style="border-color:var(--rule-hard)"><span class="dot" aria-hidden="true"></span><b id="p-txt">Tap to search nearby players</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 06 BUDDY ============================ -->
+<section id="f6" class="band" data-scheme="paper">
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">06</span><i class="shead__r"></i><span class="shead__t eyebrow">Support</span></div>
+    <h2 data-reveal>Buddy / companion system</h2>
+    <p class="lead" data-reveal style="margin-top:1.25rem">Some users may need assistance getting to or participating in an activity. Allow users to request:</p>
+    <div class="hgrid hgrid--3" data-reveal style="margin-top:clamp(1.75rem,1rem + 2.5vw,2.75rem)">
+      <div><p class="h4">Playing partner</p></div>
+      <div><p class="h4">Transportation assistance</p></div>
+      <div><p class="h4">Mobility assistance</p></div>
+      <div><p class="h4">Coach</p></div>
+      <div><p class="h4">Family / support companion</p></div>
+      <div style="background:var(--surface2)"><p class="label" style="margin-bottom:.6rem">Later</p><p class="tiny">You could eventually have <strong>verified volunteers</strong>.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 07 MARKETPLACE ============================ -->
+<section id="f7" class="band" data-scheme="sage">
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">07</span><i class="shead__r"></i><span class="shead__t eyebrow">Could become a major part</span></div>
+    <div class="two two--wide">
+      <div data-reveal>
+        <h2>Adaptive equipment marketplace</h2>
+        <ul class="flow" style="margin-top:1.5rem;font-size:1.1em"><li>Buy</li><li>Sell</li><li>Rent</li><li>Borrow</li></ul>
+        <div class="card" style="margin-top:1.75rem;background:var(--surface2)">
+          <p class="label" style="margin-bottom:.65rem">Borrow equipment — free</p>
+          <p class="tiny">Someone with equipment sitting unused could lend it to another player.</p>
+        </div>
+      </div>
+      <div data-reveal>
+        <p class="label" style="margin-bottom:1rem">Equipment such as</p>
+        <ul class="rows">
+          <li><span class="k">Sports wheelchairs</span></li>
+          <li><span class="k">Adaptive bicycles</span></li>
+          <li><span class="k">Prosthetic sports equipment</span></li>
+          <li><span class="k">Specialized gloves</span></li>
+          <li><span class="k">Ramps</span></li>
+          <li><span class="k">Sports braces</span></li>
+          <li><span class="k">Accessible fitness equipment</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 08 COACHES ============================ -->
+<section id="f8" class="band" data-scheme="paper">
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">08</span><i class="shead__r"></i><span class="shead__t eyebrow">A dedicated section</span></div>
+    <div class="two">
+      <div data-reveal>
+        <h2>Coaches &amp; trainers</h2>
+        <p class="lead" style="margin-top:1.25rem">Create a dedicated <strong>Adaptive Coach</strong> section.</p>
+        <p class="card mono" style="margin-top:1.5rem;display:flex;align-items:center;gap:.6rem;font-size:var(--t-sm)">
+          <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg> Para-badminton coaches within 10 km
+        </p>
+      </div>
+      <div data-reveal>
+        <p class="label" style="margin-bottom:1rem">Coach profiles could show</p>
+        <div class="hgrid hgrid--2">
+          <div><p class="h4">Experience</p></div>
+          <div><p class="h4">Sports specialization</p></div>
+          <div><p class="h4">Certifications</p></div>
+          <div><p class="h4">Location</p></div>
+          <div><p class="h4">Pricing</p></div>
+          <div><p class="h4">Languages</p></div>
+          <div><p class="h4">Accessibility experience</p></div>
+          <div><p class="h4">Reviews</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 09 EVENTS ============================ -->
+<section id="f9" class="band" data-scheme="paper">
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">09</span><i class="shead__r"></i><span class="shead__t eyebrow">Events</span></div>
+    <div class="two two--wide">
+      <div data-reveal>
+        <h2>Para-sports events</h2>
+        <p class="lead" style="margin-top:1.25rem">Have a dedicated event system.</p>
+        <ul class="flow" style="margin-top:1.75rem"><li>Register</li><li>Find teammates</li><li>Practice</li><li>Compete</li></ul>
+        <p class="quiet" style="margin-top:1.5rem">You could eventually allow organizations to host tournaments directly.</p>
+      </div>
+      <div class="demo" data-reveal>
+        <div class="demo__h"><span class="tag">Upcoming near you</span></div>
+        <div class="demo__b">
+          <h3>Delhi Wheelchair Basketball Tournament</h3>
+          <ul class="rows" style="margin-top:1.25rem">
+            <li><span class="k"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg> Location</span><span class="v">Delhi</span></li>
+            <li><span class="k"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg> Date</span><span class="v">Sept 22</span></li>
+            <li><span class="k"><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg> Participants</span><span class="v">64</span></li>
+            <li><span class="k">Entry</span><span class="v">₹200</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 10 REVIEWS ============================ -->
+<section id="f10" class="band" data-scheme="sage">
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">10</span><i class="shead__r"></i><span class="shead__t eyebrow">Heavily emphasised</span></div>
+    <div class="two">
+      <div data-reveal>
+        <h2>Accessibility reviews</h2>
+        <p class="lead" style="margin-top:1.25rem">After visiting a venue: <strong>how accessible was it?</strong></p>
+        <p class="quiet" style="margin-top:1.25rem">This creates a <strong>community-generated accessibility map</strong>. Over time, that could become one of your biggest assets.</p>
+      </div>
+      <div class="demo" data-reveal>
+        <div class="demo__h"><span class="tag">Rate this venue</span><span class="label mono">Arrow keys work</span></div>
+        <div class="demo__b">
+          <ul class="rate" id="rateList"></ul>
+          <p class="res" role="status" aria-live="polite"><span class="dot" aria-hidden="true"></span><b><span id="r-n" class="num">0</span> of 7 categories rated</b></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 11 PASSPORT ============================ -->
+<section id="f11" class="band" data-scheme="paper">
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">11</span><i class="shead__r"></i><span class="shead__t eyebrow">A standardized profile</span></div>
+    <div class="two">
+      <div data-reveal>
+        <h2>“Accessibility Passport”</h2>
+        <p class="lead" style="margin-top:1.25rem">Much better than simply saying <em>“wheelchair accessible.”</em></p>
+        <p class="quiet" style="margin-top:1.25rem">Because <strong>accessibility requirements aren't the same for everyone.</strong></p>
+      </div>
+      <div class="demo" data-reveal>
+        <div class="demo__h"><span class="tag">Accessibility Passport</span></div>
+        <div class="demo__b">
+          <ul class="pp">
+            <li><span class="h4">Mobility</span><span class="lvl"><i class="sq sq--full" aria-hidden="true"></i>Excellent</span></li>
+            <li><span class="h4">Visual</span><span class="lvl"><i class="sq sq--half" aria-hidden="true"></i>Moderate</span></li>
+            <li><span class="h4">Hearing</span><span class="lvl"><i class="sq sq--full" aria-hidden="true"></i>Excellent</span></li>
+            <li><span class="h4">Cognitive</span><span class="lvl"><i class="sq sq--half" aria-hidden="true"></i>Moderate</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 12 GAMIFICATION ============================ -->
+<section id="f12" class="band" data-scheme="dark">
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">12</span><i class="shead__r"></i><span class="shead__t eyebrow">Make it fun</span></div>
+    <h2 data-reveal>Gamification</h2>
+    <div class="two" style="margin-top:clamp(1.75rem,1rem + 2.5vw,2.75rem)">
+      <div data-reveal>
+        <p class="label" style="margin-bottom:1rem">Users earn</p>
+        <div class="hgrid hgrid--2">
+          <div><p class="h4">First game</p></div>
+          <div><p class="h4">5 games played</p></div>
+          <div><p class="h4">Tournament winner</p></div>
+          <div><p class="h4">Community helper</p></div>
+          <div><p class="h4">Top rated player</p></div>
+          <div><p class="h4">Accessibility reviewer</p></div>
+        </div>
+        <div class="card" style="margin-top:1.5rem;background:var(--surface2);border-color:var(--rule-hard)">
+          <p class="label" style="margin-bottom:.6rem">Weekly challenge</p>
+          <p style="font-size:var(--t-sm)">Play 2 games this week <span aria-hidden="true">→</span> <strong style="color:var(--accent-text)">+100 XP</strong></p>
+        </div>
+      </div>
+      <div data-reveal>
+        <p class="label" style="margin-bottom:1rem">Leaderboard — your city</p>
+        <ul class="lb">
+          <li><span class="r">01</span><span class="n">Rahul</span><span class="x">1,240 XP</span></li>
+          <li><span class="r">02</span><span class="n">Arjun</span><span class="x">1,180 XP</span></li>
+          <li data-you><span class="r">03</span><span class="n">You</span><span class="x">1,050 XP</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 13 COMMUNITIES ============================ -->
+<section id="f13" class="band" data-scheme="paper">
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">13</span><i class="shead__r"></i><span class="shead__t eyebrow">Make it feel alive</span></div>
+    <div class="two two--wide">
+      <div data-reveal>
+        <h2>City-based communities</h2>
+        <p class="lead" style="margin-top:1.25rem">Create local communities — a <strong>Delhi Sports Community</strong>, and one for every city after it.</p>
+        <p class="quiet" style="margin-top:1.25rem">This makes the platform feel alive rather than just being a booking platform.</p>
+      </div>
+      <div class="demo" data-reveal>
+        <div class="demo__h">
+          <span class="tag"><svg class="ic" aria-hidden="true" style="margin-left:-.15rem"><use href="#i-acc"/></svg> Delhi Sports Community</span>
+        </div>
+        <div class="demo__b">
+          <ul class="chips" aria-label="Community channels">
+            <li class="chip" style="pointer-events:none">Badminton</li>
+            <li class="chip" style="pointer-events:none">Basketball</li>
+            <li class="chip" style="pointer-events:none">Cricket</li>
+            <li class="chip" style="pointer-events:none">Swimming</li>
+            <li class="chip" style="pointer-events:none">Fitness</li>
+            <li class="chip" style="pointer-events:none">Events</li>
+            <li class="chip" style="pointer-events:none">Tournaments</li>
+          </ul>
+          <div class="card" style="margin-top:1.5rem;background:var(--surface2)">
+            <p class="label" style="margin-bottom:.6rem">A post</p>
+            <p style="font-size:var(--t-lead);line-height:1.35">“Anyone up for wheelchair badminton Sunday?”</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 14 SAFETY ============================ -->
+<section id="f14" class="band" data-scheme="paper">
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">14</span><i class="shead__r"></i><span class="shead__t eyebrow">Because this is physical activity</span></div>
+    <div class="two">
+      <div data-reveal>
+        <h2>Emergency &amp; safety</h2>
+        <p class="lead" style="margin-top:1.25rem">During a game, users can quickly reach help.</p>
+        <p class="quiet" style="margin-top:1.25rem">Also consider a <strong>“Share Game Location”</strong> feature with trusted contacts.</p>
+      </div>
+      <div class="demo" data-reveal style="border-color:var(--neg-text)">
+        <div class="demo__h" style="border-bottom-color:var(--neg-text)">
+          <span class="tag" style="color:var(--neg-text)"><svg class="ic" aria-hidden="true"><use href="#i-alert"/></svg> Emergency contact</span>
+        </div>
+        <div class="demo__b">
+          <ul class="rows">
+            <li><span class="k">Emergency contact</span></li>
+            <li><span class="k">Venue address</span></li>
+            <li><span class="k">Emergency services</span></li>
+          </ul>
+          <div class="card" style="margin-top:1.25rem;border-color:var(--neg-text)">
+            <p class="label" style="color:var(--neg-text);margin-bottom:.6rem">Opt-in only</p>
+            <p style="font-size:var(--t-sm)"><strong>Medical information</strong> — stored only if the user voluntarily chooses to store it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 15 SMARTMATCH ============================ -->
+<section id="f15" class="band" data-scheme="dark">
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">15</span><i class="shead__r"></i><span class="shead__t eyebrow">Ask in plain language</span></div>
+    <div class="two two--wide">
+      <div data-reveal>
+        <h2>SmartMatch</h2>
+        <p class="lead" style="margin-top:1.25rem">Instead of users manually filtering everything — they just say what they want.</p>
+        <p class="quiet" style="margin-top:1.25rem">This could make the product feel much more modern.</p>
+      </div>
+      <div class="demo" data-reveal>
+        <div class="demo__h"><span class="tag">SmartMatch</span></div>
+        <div class="demo__b">
+          <p class="field">
+            <label class="label" for="sm-q">Your request</label>
+            <input type="text" id="sm-q" value="I want to play wheelchair badminton this Saturday evening within 5 km, preferably with intermediate players.">
+          </p>
+          <button class="btn btn--p" id="sm-go" style="width:100%;margin-top:1rem">Search</button>
+          <div id="sm-out" role="status" aria-live="polite">
+            <p class="res"><span class="dot" aria-hidden="true"></span><b id="sm-txt">Press search to see what the system finds</b></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 16 POSITIONING ============================ -->
+<section id="principles" class="band" data-scheme="lime" data-nav>
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">16</span><i class="shead__r"></i><span class="shead__t eyebrow">Important for the branding</span></div>
+    <div class="stmt" data-reveal>
+      <p class="stmt__a">“What can you play?”</p>
+      <p class="stmt__vs"><span>Rather than</span><i></i></p>
+      <p class="stmt__b">“What disability do you have?”</p>
+    </div>
+    <div class="two" data-reveal style="margin-top:clamp(2rem,1rem + 3vw,3.5rem);border-top:1px solid var(--rule);padding-top:clamp(1.5rem,1rem + 2vw,2.5rem)">
+      <p class="quiet">Someone might be a wheelchair user, amputee, visually impaired, or have another physical limitation — but the important thing for the matching engine is <strong>what activities they can and want to participate in</strong>.</p>
+      <p class="quiet">You can still collect accessibility preferences where necessary, <strong>with strong privacy controls</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 17 INCLUSIVE ============================ -->
+<section id="f17" class="band" data-scheme="paper">
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">17</span><i class="shead__r"></i><span class="shead__t eyebrow">Don't isolate your users</span></div>
+    <div class="two two--wide">
+      <div data-reveal>
+        <h2>Inclusive for non-disabled players too</h2>
+        <p class="lead" style="margin-top:1.25rem">Allow anyone who wants inclusive or adaptive sport to participate, where appropriate.</p>
+        <p class="quiet" style="margin-top:1.25rem">For example, an <strong>Inclusive Badminton — 8 players</strong> game could include disabled and non-disabled players. That helps avoid creating a platform that unintentionally isolates its users.</p>
+      </div>
+      <div data-reveal>
+        <p class="label" style="margin-bottom:1rem">Separate categories</p>
+        <div class="hgrid">
+          <div><p class="h4">Adaptive games</p></div>
+          <div><p class="h4">Inclusive games</p></div>
+          <div><p class="h4">Para competitions</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 18 BUSINESS MODEL ============================ -->
+<section id="model" class="band" data-scheme="sage" data-nav>
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">18</span><i class="shead__r"></i><span class="shead__t eyebrow">Potential revenue</span></div>
+    <div class="two two--wide">
+      <div data-reveal>
+        <h2>Business model</h2>
+        <p class="lead" style="margin-top:1.25rem">You don't necessarily need to charge users heavily.</p>
+      </div>
+      <div data-reveal>
+        <ul class="rev">
+          <li><span class="src">Venues</span><span class="how">Commission on bookings</span></li>
+          <li><span class="src">Coaches</span><span class="how">Commission on sessions</span></li>
+          <li><span class="src">Events</span><span class="how">Registration fees</span></li>
+          <li><span class="src">Organizations</span><span class="how">Premium dashboards</span></li>
+          <li><span class="src">Equipment</span><span class="how">Marketplace commission</span></li>
+          <li><span class="src">Sponsors</span><span class="how">Sports brands / accessibility companies</span></li>
+          <li><span class="src">Premium</span><span class="how">Advanced matching, statistics, priority event registration</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ MARQUEE 2 ============================ -->
+<div class="mq mq--rev" data-scheme="lime" aria-hidden="true">
+  <div class="mq__t" id="mq2"></div>
+</div>
+
+<!-- ============================ BUILD FIRST ============================ -->
+<section id="build" class="band" data-scheme="paper" data-nav>
+  <div class="wrap">
+    <div class="shead" data-reveal><span class="shead__n">→</span><i class="shead__r"></i><span class="shead__t eyebrow">What I'd build first</span></div>
+    <h2 data-reveal>Don't build everything</h2>
+    <p class="lead" data-reveal style="margin-top:1.25rem">Ship the MVP. Everything else is Version&nbsp;2.</p>
+
+    <div data-reveal style="margin-top:clamp(1.75rem,1rem + 2.5vw,2.75rem)">
+      <div class="tabs" role="tablist" aria-label="Build order">
+        <button class="tab" role="tab" id="tab-u" aria-controls="pan-u" aria-selected="true">MVP — user side</button>
+        <button class="tab" role="tab" id="tab-a" aria-controls="pan-a" aria-selected="false" tabindex="-1">MVP — admin side</button>
+        <button class="tab" role="tab" id="tab-v" aria-controls="pan-v" aria-selected="false" tabindex="-1">Version 2</button>
+      </div>
+      <div class="tpanel" role="tabpanel" id="pan-u" aria-labelledby="tab-u" tabindex="0">
+        <ol class="steps" style="columns:1">
+          <li>Sign up</li><li>Profile</li><li>Sport selection</li><li>Accessibility preferences</li>
+          <li>Find nearby players</li><li>Find accessible venues</li><li>Create / join game</li>
+          <li>Chat</li><li>Ratings / reviews</li><li>Events</li>
+        </ol>
+      </div>
+      <div class="tpanel" role="tabpanel" id="pan-a" aria-labelledby="tab-a" tabindex="0" hidden>
+        <ol class="steps">
+          <li>User management</li><li>Venue management</li><li>Accessibility verification</li>
+          <li>Game / event management</li><li>Reports / moderation</li><li>Analytics</li>
+        </ol>
+      </div>
+      <div class="tpanel" role="tabpanel" id="pan-v" aria-labelledby="tab-v" tabindex="0" hidden>
+        <ol class="steps">
+          <li>SmartMatch</li><li>Tournaments</li><li>Coaches</li><li>Equipment marketplace</li>
+          <li>Volunteer / buddy network</li><li>Player progression</li><li>Gamification</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="band band--tight ft__wrap" data-scheme="dark">
+  <div class="wrap">
+    <p class="ft__mark">PlayAble</p>
+    <div class="hgrid hgrid--3 ft__grid">
+      <div>
+        <p class="label" style="margin-bottom:.9rem">The idea</p>
+        <p class="tiny">The easiest way for people with different abilities to find someone nearby to play with, at a venue they know is genuinely accessible.</p>
+      </div>
+      <div>
+        <p class="label" style="margin-bottom:.9rem">Contents</p>
+        <ul class="tiny" style="display:grid;gap:.4rem">
+          <li><a href="#idea" style="text-decoration:none">The big idea</a></li>
+          <li><a href="#features" style="text-decoration:none">18 concepts</a></li>
+          <li><a href="#principles" style="text-decoration:none">Principles</a></li>
+          <li><a href="#model" style="text-decoration:none">Business model</a></li>
+          <li><a href="#build" style="text-decoration:none">What to build first</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="label" style="margin-bottom:.9rem">Status</p>
+        <p class="tiny">Concept proposal. Nothing here is live — the figures shown are the worked examples from the concept document.</p>
+      </div>
+    </div>
+    <div class="ft__bot">
+      <span>PlayAble — Find. Match. Play.</span>
+      <span>Concept presentation</span>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+document.documentElement.classList.add("js");
+var RM = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- tiny DOM helper ---------- */
+function h(tag, props){
+  var el = document.createElement(tag), i, k;
+  if(props) for(k in props){
+    if(k === "class") el.className = props[k];
+    else if(k === "text") el.textContent = props[k];
+    else if(k === "html") el.innerHTML = props[k];
+    else if(props[k] !== null && props[k] !== false) el.setAttribute(k, props[k]);
+  }
+  for(i = 2; i < arguments.length; i++){
+    var c = arguments[i];
+    if(c == null || c === false) continue;
+    el.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+  }
+  return el;
+}
+function svgIcon(id){
+  var s = document.createElementNS("http://www.w3.org/2000/svg","svg");
+  s.setAttribute("class","ic"); s.setAttribute("aria-hidden","true");
+  var u = document.createElementNS("http://www.w3.org/2000/svg","use");
+  u.setAttribute("href","#"+id); s.appendChild(u); return s;
+}
+function $(s,r){ return (r||document).querySelector(s); }
+function $$(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); }
+
+/* ---------- DATA — all values quoted from the concept document ---------- */
+var SPORTS = ["Wheelchair basketball","Sitting volleyball","Para badminton","Para table tennis",
+  "Swimming","Para archery","Blind / visually impaired football","Wheelchair tennis",
+  "Chess","Adaptive fitness","Para cycling","Adaptive boxing"];
+
+var VENUE = [
+  {n:"Wheelchair entrance", y:true},
+  {n:"Elevator", y:true},
+  {n:"Accessible toilet", y:true},
+  {n:"Accessible parking", y:true},
+  {n:"Wide doors", y:true},
+  {n:"Stairs required", y:false},
+  {n:"Wheelchair sports equipment", y:false}
+];
+
+var GAME = [
+  {k:"Sport", v:"Badminton", i:"i-target"},
+  {k:"Distance", v:"2.4 km away", i:"i-pin"},
+  {k:"Day", v:"Saturday", i:"i-cal"},
+  {k:"Time", v:"6:00 PM", i:"i-clock"},
+  {k:"Players", v:"2/4", i:"i-users"},
+  {k:"Level", v:"Intermediate", i:"i-target"},
+  {k:"Court", v:"Wheelchair accessible", i:"i-acc"}
+];
+
+var RATE = ["Entrance","Bathrooms","Parking","Elevators","Playing area","Navigation","Staff assistance"];
+
+var TOC = ["Player matching","Accessibility-first venue discovery","Adaptive sports filter",
+  "Create a game in 30 seconds","“I need a partner”","Buddy / companion system",
+  "Adaptive equipment marketplace","Coaches & trainers","Para-sports events",
+  "Accessibility reviews","“Accessibility Passport”","Gamification","City-based communities",
+  "Emergency & safety","SmartMatch","Not only about disability",
+  "Inclusive for everyone","Business model"];
+
+/* ---------- contents index ---------- */
+(function(){
+  var nav = $("#toc"); if(!nav) return;
+  TOC.forEach(function(t, i){
+    var n = i + 1;
+    var id = n === 16 ? "principles" : (n === 18 ? "model" : "f" + n);
+    nav.appendChild(h("a", {href:"#"+id},
+      h("b",{text:(n<10?"0":"")+n}), h("span",{text:t})));
+  });
+})();
+
+/* ---------- marquees ---------- */
+(function(){
+  function fill(el, items){
+    if(!el) return;
+    for(var pass = 0; pass < 2; pass++){
+      var g = h("div",{class:"mq__g"});
+      items.forEach(function(t){ g.appendChild(h("span",{class:"mq__i",text:t})); });
+      el.appendChild(g);
+    }
+  }
+  fill($("#mq1"), SPORTS);
+  fill($("#mq2"), ["Find","Match","Play","Adaptive","Inclusive","Accessible","Nearby"]);
+})();
+
+/* ---------- header: stuck state + progress rail ---------- */
+(function(){
+  var hdr = $("#hdr"), rail = $("#rail"), tick = false;
+  function upd(){
+    tick = false;
+    var y = window.pageYOffset || document.documentElement.scrollTop;
+    if(y > 8) hdr.setAttribute("data-stuck",""); else hdr.removeAttribute("data-stuck");
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var p = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
+    if(rail) rail.style.transform = "scaleX(" + p + ")";
+  }
+  window.addEventListener("scroll", function(){
+    if(!tick){ tick = true; requestAnimationFrame(upd); }
+  }, {passive:true});
+  window.addEventListener("resize", upd, {passive:true});
+  upd();
+})();
+
+/* ---------- scroll-spy ---------- */
+(function(){
+  var links = $$(".hdr__nav a");
+  if(!links.length || !("IntersectionObserver" in window)) return;
+  var map = {};
+  links.forEach(function(a){
+    var el = document.getElementById(a.getAttribute("href").slice(1));
+    if(el) map[el.id] = a;
+  });
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      var a = map[e.target.id]; if(!a) return;
+      if(e.isIntersecting){
+        links.forEach(function(l){ l.removeAttribute("aria-current"); });
+        a.setAttribute("aria-current","true");
+      }
+    });
+  }, {rootMargin:"-45% 0px -50% 0px"});
+  Object.keys(map).forEach(function(id){ io.observe(document.getElementById(id)); });
+})();
+
+/* ---------- reveal on scroll (progressive enhancement) ---------- */
+(function(){
+  var els = $$("[data-reveal]");
+  if(RM || !("IntersectionObserver" in window)){
+    els.forEach(function(e){ e.classList.add("in"); });
+    $$(".shead__r").forEach(function(e){ e.classList.add("in"); });
+    return;
+  }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add("in");
+      $$(".shead__r", e.target).forEach(function(r){ r.classList.add("in"); });
+      io.unobserve(e.target);
+    });
+  }, {threshold:0.12, rootMargin:"0px 0px -8% 0px"});
+  els.forEach(function(e){ io.observe(e); });
+})();
+
+/* ---------- count-up ---------- */
+(function(){
+  var els = $$(".count");
+  function set(el, v){ el.textContent = v < 10 ? "0" + v : String(v); }
+  if(RM || !("IntersectionObserver" in window)){
+    els.forEach(function(e){ set(e, +e.getAttribute("data-to")); });
+    return;
+  }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var el = e.target, to = +el.getAttribute("data-to"), t0 = null;
+      io.unobserve(el);
+      requestAnimationFrame(function step(ts){
+        if(t0 === null) t0 = ts;
+        var p = Math.min(1, (ts - t0) / 1100);
+        set(el, Math.round(to * (1 - Math.pow(1 - p, 3))));
+        if(p < 1) requestAnimationFrame(step);
+      });
+    });
+  }, {threshold:0.5});
+  els.forEach(function(e){ io.observe(e); });
+})();
+
+/* ---------- §01 matcher ---------- */
+(function(){
+  var btn = $("#m-go"), res = $("#m-res"); if(!btn) return;
+  var out = res.querySelector("b");
+  btn.addEventListener("click", function(){
+    var ab = $("#m-ab").value, sp = $("#m-sp").value,
+        sk = $("#m-sk").value, di = $("#m-di").value;
+    // The document's worked example: wheelchair user + badminton + intermediate + 5 km -> 12 found.
+    var isExample = (ab === "Wheelchair user" && sp === "Badminton" &&
+                     sk === "Intermediate" && di === "5 km");
+    res.setAttribute("data-busy","true");
+    out.textContent = "Searching " + di + " for " + sp.toLowerCase() + "…";
+    setTimeout(function(){
+      res.removeAttribute("data-busy");
+      out.textContent = isExample
+        ? "12 compatible players found nearby."
+        : "Compatible players found nearby.";
+    }, RM ? 0 : 620);
+  });
+})();
+
+/* ---------- §02 venue accessibility ---------- */
+(function(){
+  var list = $("#v-list"); if(!list) return;
+  var state = VENUE.map(function(f){ return f.y; });
+  var score = $("#v-score"), bar = $("#v-bar"), res = $("#v-res").querySelector("b");
+
+  function mark(on){
+    var s = h("span",{class:"mk " + (on ? "mk--y" : "mk--n")});
+    s.appendChild(svgIcon(on ? "i-check" : "i-x"));
+    return s;
+  }
+  function paint(){
+    var n = state.filter(Boolean).length;
+    // 5 of 7 present is the document's venue, scored 8.5/10 — hold that as the anchor.
+    var v = n === 5 ? 8.5 : Math.round((n / VENUE.length) * 100) / 10;
+    score.textContent = v.toFixed(1);
+    bar.style.width = (v * 10) + "%";
+    res.textContent = n + " of " + VENUE.length + " accessibility features present";
+    $$("li", list).forEach(function(li, i){
+      var b = li.querySelector("button");
+      b.setAttribute("aria-pressed", state[i] ? "true" : "false");
+      var old = li.querySelector(".mk");
+      li.replaceChild(mark(state[i]), old);
+    });
+  }
+  VENUE.forEach(function(f, i){
+    var btn = h("button",{type:"button",class:"nm","aria-pressed":f.y?"true":"false"}, f.n);
+    btn.addEventListener("click", function(){ state[i] = !state[i]; paint(); });
+    list.appendChild(h("li", null, mark(f.y), btn));
+  });
+  paint();
+})();
+
+/* ---------- §03 sports filter ---------- */
+(function(){
+  var ul = $("#sportChips"); if(!ul) return;
+  var n = $("#s-n"), sel = {};
+  function upd(){
+    var c = Object.keys(sel).filter(function(k){ return sel[k]; }).length;
+    n.textContent = c;
+  }
+  SPORTS.forEach(function(s, i){
+    var b = h("button",{type:"button",class:"chip","aria-pressed":"false"});
+    b.appendChild(svgIcon("i-check")); b.querySelector("svg").classList.add("tick");
+    b.appendChild(document.createTextNode(s));
+    b.addEventListener("click", function(){
+      sel[i] = !sel[i];
+      b.setAttribute("aria-pressed", sel[i] ? "true" : "false");
+      upd();
+    });
+    ul.appendChild(h("li", null, b));
+  });
+  upd();
+})();
+
+/* ---------- §04 create a game ---------- */
+(function(){
+  var list = $("#g-list"); if(!list) return;
+  GAME.forEach(function(g){
+    var k = h("span",{class:"k"});
+    k.appendChild(svgIcon(g.i));
+    k.appendChild(document.createTextNode(" " + g.k));
+    list.appendChild(h("li", null, k, h("span",{class:"v",text:g.v})));
+  });
+  // 30-second counter — the document's promise, shown as a countdown
+  var t = $("#g-timer"), left = 30;
+  if(t && !RM){
+    var iv = setInterval(function(){
+      left--; if(left < 0){ clearInterval(iv); t.textContent = "00:00"; return; }
+      t.textContent = "00:" + (left < 10 ? "0" : "") + left;
+    }, 1000);
+  }
+  var join = $("#g-join"), res = $("#g-res");
+  if(join) join.addEventListener("click", function(){
+    res.hidden = false;
+    join.disabled = true;
+    join.textContent = "Joined";
+  });
+})();
+
+/* ---------- §05 partner finder ---------- */
+(function(){
+  var b = $("#p-go"), res = $("#p-res"), txt = $("#p-txt"); if(!b) return;
+  b.addEventListener("click", function(){
+    res.setAttribute("data-busy","true");
+    txt.textContent = "Searching location + sport + skill + availability + accessibility…";
+    setTimeout(function(){
+      res.removeAttribute("data-busy");
+      txt.textContent = "3 compatible players found";
+    }, RM ? 0 : 750);
+  });
+})();
+
+/* ---------- §10 accessibility rating ---------- */
+(function(){
+  var ul = $("#rateList"); if(!ul) return;
+  var out = $("#r-n"), vals = RATE.map(function(){ return 0; });
+  function count(){ out.textContent = vals.filter(function(v){ return v > 0; }).length; }
+
+  RATE.forEach(function(name, ri){
+    var group = h("span",{class:"rate__set",role:"radiogroup","aria-label":name});
+    var btns = [];
+    for(var i = 1; i <= 5; i++){
+      (function(v){
+        var b = h("button",{type:"button",class:"rate__b",role:"radio",
+          "aria-checked":"false","aria-label":v + " out of 5","data-on":"0",
+          tabindex: v === 1 ? "0" : "-1"}, h("span"));
+        b.addEventListener("click", function(){ setVal(ri, v); b.focus(); });
+        b.addEventListener("keydown", function(e){
+          var d = e.key === "ArrowRight" || e.key === "ArrowUp" ? 1
+                : e.key === "ArrowLeft"  || e.key === "ArrowDown" ? -1 : 0;
+          if(!d) return;
+          e.preventDefault();
+          var nv = Math.min(5, Math.max(1, (vals[ri] || v) + d));
+          setVal(ri, nv); btns[nv - 1].focus();
         });
-    </script>
+        btns.push(b); group.appendChild(b);
+      })(i);
+    }
+    function setVal(row, v){
+      vals[row] = v;
+      btns.forEach(function(b, idx){
+        var on = idx < v;
+        b.setAttribute("data-on", on ? "1" : "0");
+        b.setAttribute("aria-checked", idx + 1 === v ? "true" : "false");
+        b.setAttribute("tabindex", idx + 1 === v ? "0" : "-1");
+      });
+      count();
+    }
+    ul.appendChild(h("li", null, h("span",{class:"nm",text:name}), group));
+  });
+  count();
+})();
 
+/* ---------- §15 SmartMatch ---------- */
+(function(){
+  var b = $("#sm-go"), txt = $("#sm-txt"), res = txt && txt.closest(".res"); if(!b) return;
+  b.addEventListener("click", function(){
+    res.setAttribute("data-busy","true");
+    txt.textContent = "Reading your request…";
+    setTimeout(function(){
+      res.removeAttribute("data-busy");
+      txt.textContent = "4 suitable games + 7 compatible players + 3 accessible venues";
+    }, RM ? 0 : 800);
+  });
+})();
+
+/* ---------- build-order tabs ---------- */
+(function(){
+  var tabs = $$('[role="tab"]');
+  if(!tabs.length) return;
+  function show(t){
+    tabs.forEach(function(x){
+      var on = x === t, p = document.getElementById(x.getAttribute("aria-controls"));
+      x.setAttribute("aria-selected", on ? "true" : "false");
+      x.setAttribute("tabindex", on ? "0" : "-1");
+      if(p) p.hidden = !on;
+    });
+  }
+  tabs.forEach(function(t, i){
+    t.addEventListener("click", function(){ show(t); });
+    t.addEventListener("keydown", function(e){
+      var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if(!d) return;
+      e.preventDefault();
+      var n = tabs[(i + d + tabs.length) % tabs.length];
+      show(n); n.focus();
+    });
+  });
+})();
+
+})();
+</script>
 </body>
 </html>
