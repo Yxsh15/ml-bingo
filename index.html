@@ -3,33 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PlayAble — Find. Match. Play.</title>
-<meta name="description" content="PlayAble — a platform where physically challenged people can find nearby players, accessible sports facilities, coaches, events, and compatible teams based on their abilities and preferences.">
+<title>ParaArena — Find. Match. Play.</title>
+<meta name="description" content="ParaArena — a platform where physically challenged people can find nearby players, accessible sports facilities, coaches, events, and compatible teams based on their abilities and preferences.">
 <meta name="color-scheme" content="light">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Lato:wght@400;700&display=swap" rel="stylesheet">
 <style>
 /* ==========================================================================
-   PLAYABLE — concept presentation
+   PARAARENA — concept presentation
    Design language derived from fulltimestore.in:
-   warm paper, near-black ink, acid lime, Barlow uppercase, Lato body,
+   warm paper, near-black ink, signal orange, Barlow uppercase, Lato body,
    zero border-radius, structure carried by 1px rules and whitespace.
 
-   THE LIME LAW: #CDFF65 on #FBFAF8 is 1.11:1 — invisible.
-   Lime is only ever a FILL, a RULE, or TEXT ON INK. Never text on light.
-   Where lime would be text on light, olive #4D7C0F (4.79:1) substitutes.
+   THE ACCENT LAW: #EE4526 is a mid-tone. On paper it is 3.57:1 and on ink
+   4.29:1 — large text only, never body copy. It is a FILL first.
+   Text ON the accent must be near-black #0A0A0A (5.20:1).
+   Accent AS text becomes rust #9A3412 on light (6.84:1),
+   or #FB8A6B on ink (6.96:1).
    ========================================================================== */
 
 :root{
   /* raw channels */
   --c-paper:251 250 248;   /* #FBFAF8 */
   --c-ink:23 23 23;        /* #171717 */
-  --c-lime:205 255 101;    /* #CDFF65 */
-  --c-tint:247 254 231;    /* #F7FEE7 */
-  --c-sage:241 244 236;    /* #F1F4EC */
+  --c-accent:238 69 38;    /* #EE4526 */
+  --c-accent-ink:10 10 10; /* #0A0A0A  the only text safe ON the accent */
+  --c-tint:253 238 233;    /* #FDEEE9  pale accent wash */
+  --c-sage:244 240 237;    /* #F4F0ED  warm stone */
   --c-paper2:246 247 244;  /* #F6F7F4 */
-  --c-olive:63 98 18;      /* #3F6212  lime's readable relative */
+  --c-rust:154 52 18;      /* #9A3412  accent's readable relative on light */
+  --c-accent-lt:251 138 107; /* #FB8A6B  accent's readable relative on ink */
   --c-amber:161 98 7;      /* #A16207  readable amber */
   --c-rose:159 18 57;      /* #9F1239  readable rose */
 
@@ -44,9 +48,9 @@
   --rule-hard:rgb(var(--c-ink)/.44);
   --surface:#fff;
   --surface2:rgb(var(--c-paper2));
-  --accent:rgb(var(--c-lime));
-  --accent-fg:rgb(var(--c-ink));
-  --accent-text:rgb(var(--c-olive));
+  --accent:rgb(var(--c-accent));
+  --accent-fg:rgb(var(--c-accent-ink));
+  --accent-text:rgb(var(--c-rust));
   --warn-text:rgb(var(--c-amber));
   --neg-text:rgb(var(--c-rose));
 
@@ -92,22 +96,22 @@
   --rule-hard:rgb(var(--c-paper)/.46);
   --surface:rgb(var(--c-paper)/.045);
   --surface2:rgb(var(--c-paper)/.08);
-  --accent-text:rgb(var(--c-lime));   /* on ink, lime IS text-safe (15.4:1) */
+  --accent-text:rgb(var(--c-accent-lt)); /* 6.96:1 on ink */
   --warn-text:#FCD34D;
   --neg-text:#FDA4AF;
 }
-[data-scheme="lime"]{
-  --bg:rgb(var(--c-lime));
-  --fg:rgb(var(--c-ink));
-  --fg70:rgb(var(--c-ink)/.76);
-  --fg50:rgb(var(--c-ink)/.68);
-  --rule:rgb(var(--c-ink)/.24);
-  --rule-hard:rgb(var(--c-ink)/.5);
-  --surface:rgb(var(--c-ink)/.06);
-  --surface2:rgb(var(--c-ink)/.09);
-  --accent:rgb(var(--c-ink));
-  --accent-fg:rgb(var(--c-lime));
-  --accent-text:rgb(var(--c-ink));
+[data-scheme="accent"]{
+  --bg:rgb(var(--c-accent));
+  --fg:rgb(var(--c-accent-ink));
+  --fg70:rgb(var(--c-accent-ink)/.94);
+  --fg50:rgb(var(--c-accent-ink)/.88);
+  --rule:rgb(var(--c-accent-ink)/.30);
+  --rule-hard:rgb(var(--c-accent-ink)/.55);
+  --surface:rgb(var(--c-accent-ink)/.07);
+  --surface2:rgb(var(--c-accent-ink)/.11);
+  --accent:rgb(var(--c-accent-ink));
+  --accent-fg:rgb(var(--c-accent));
+  --accent-text:rgb(var(--c-accent-ink));
 }
 
 /* ============================ reset ============================ */
@@ -126,7 +130,7 @@ button,input,select{font:inherit;color:inherit}
 button{background:none;border:0;cursor:pointer}
 a{color:inherit}
 :focus-visible{ outline:2px solid var(--fg); outline-offset:3px; }
-::selection{ background:rgb(var(--c-lime)); color:rgb(var(--c-ink)); }
+::selection{ background:rgb(var(--c-accent)); color:rgb(var(--c-accent-ink)); }
 [hidden]{display:none!important}
 .vh{ position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0 }
 
@@ -197,8 +201,8 @@ strong,b{font-weight:700}
 .hdr__in{ display:flex; align-items:center; justify-content:space-between; gap:1rem; height:60px; }
 @media(min-width:60em){ .hdr__in{height:72px} }
 .brand{
-  font-family:var(--f-head); font-weight:600; font-size:1.0625rem; text-transform:uppercase;
-  letter-spacing:.02em; text-decoration:none; display:inline-flex; align-items:center; gap:.5rem;
+  font-family:var(--f-head); font-weight:600; font-size:1.125rem; text-transform:none;
+  letter-spacing:-.01em; text-decoration:none; display:inline-flex; align-items:center; gap:.5rem;
 }
 .brand b{font-weight:600}
 .brand i{ display:inline-block; width:9px; height:9px; background:var(--accent); font-style:normal; }
@@ -270,13 +274,13 @@ select:focus,input:focus{ outline:2px solid var(--fg); outline-offset:2px; }
 /* ============================ hero ============================ */
 .hero{ padding-top:clamp(2.5rem,1rem + 6vw,6rem); padding-bottom:clamp(2.5rem,1.5rem + 3vw,5rem); }
 .hero__d{
-  font-family:var(--f-head); font-weight:500; font-size:var(--t-display); line-height:.82;
-  letter-spacing:-.045em; text-transform:uppercase; margin:0;
+  font-family:var(--f-head); font-weight:500; font-size:var(--t-display); line-height:.86;
+  letter-spacing:-.035em; text-transform:none; margin:0;
 }
 .hero__d span{ display:block; }
 .hero__d span.hero__mark{
   display:inline-block;
-  background:var(--accent); color:rgb(var(--c-ink));
+  background:var(--accent); color:rgb(var(--c-accent-ink));
   box-decoration-break:clone; -webkit-box-decoration-break:clone; padding:0 .1em .04em; margin-left:-.1em;
 }
 .hero__sub{
@@ -371,7 +375,7 @@ select:focus,input:focus{ outline:2px solid var(--fg); outline-offset:2px; }
 }
 .res b{ font-family:var(--f-head); font-weight:600; font-size:clamp(1rem,.9rem + .55vw,1.375rem);
   text-transform:uppercase; letter-spacing:-.01em; line-height:1.15; font-variant-numeric:tabular-nums; }
-.res .dot{ width:9px;height:9px;background:rgb(var(--c-lime));flex:none }
+.res .dot{ width:9px;height:9px;background:rgb(var(--c-accent));flex:none }
 .res[data-busy="true"] .dot{ animation:pulse 900ms steps(2,end) infinite }
 @keyframes pulse{ 50%{opacity:.25} }
 
@@ -388,12 +392,12 @@ select:focus,input:focus{ outline:2px solid var(--fg); outline-offset:2px; }
 .rows .k{color:var(--fg70)}
 .rows .v{ font-family:var(--f-mono); font-size:var(--t-xs); text-align:right; flex:none; }
 
-/* bullet list with lime square markers */
+/* bullet list with accent square markers */
 .bul li{ position:relative; padding-left:1.4rem; margin-bottom:.65rem; font-size:var(--t-sm); line-height:1.55; color:var(--fg70); }
 .bul li:last-child{margin-bottom:0}
 .bul li::before{ content:""; position:absolute; left:0; top:.52em; width:7px; height:7px;
   background:var(--accent); }
-[data-scheme="lime"] .bul li::before{background:var(--fg)}
+[data-scheme="accent"] .bul li::before{background:var(--fg)}
 
 /* numbered steps */
 .steps{ counter-reset:s; }
@@ -412,7 +416,7 @@ select:focus,input:focus{ outline:2px solid var(--fg); outline-offset:2px; }
 .venue__score b i{ font-style:normal; font-size:.42em; color:var(--fg35); letter-spacing:0; }
 .meter{ height:6px; background:var(--rule); margin-top:.9rem; }
 .meter i{ display:block; height:100%; background:var(--accent); transition:width var(--ds) var(--ease); }
-[data-scheme="lime"] .meter i{background:var(--fg)}
+[data-scheme="accent"] .meter i{background:var(--fg)}
 
 .feat li{ display:flex; align-items:center; gap:.75rem; padding:.62rem 0; border-bottom:1px solid var(--rule-soft); }
 .feat li:last-child{border-bottom:0}
@@ -422,7 +426,7 @@ select:focus,input:focus{ outline:2px solid var(--fg); outline-offset:2px; }
 .mk--y{ background:var(--accent); border-color:var(--fg); }
 .mk--n{ background:transparent; }
 .mk svg{width:11px;height:11px;display:block}
-.mk--y svg{color:rgb(var(--c-ink))}
+.mk--y svg{color:rgb(var(--c-accent-ink))}
 .mk--n svg{color:var(--fg50)}
 
 /* passport */
@@ -446,7 +450,7 @@ select:focus,input:focus{ outline:2px solid var(--fg); outline-offset:2px; }
 .rate__b[data-on="1"]{ background:var(--accent); border-color:var(--fg); }
 .rate__b:focus-visible{outline-offset:2px}
 .rate__b span{ width:9px;height:9px;background:var(--fg35) }
-.rate__b[data-on="1"] span{ background:rgb(var(--c-ink)) }
+.rate__b[data-on="1"] span{ background:rgb(var(--c-accent-ink)) }
 
 /* leaderboard */
 .lb li{ display:grid; grid-template-columns:auto 1fr auto; gap:1rem; align-items:baseline;
@@ -495,8 +499,8 @@ select:focus,input:focus{ outline:2px solid var(--fg); outline-offset:2px; }
 
 /* footer */
 .ft__mark{
-  font-family:var(--f-head); font-weight:500; text-transform:uppercase; letter-spacing:-.045em;
-  font-size:clamp(3.5rem,2rem + 13vw,13rem); line-height:.78; margin:0;
+  font-family:var(--f-head); font-weight:500; text-transform:none; letter-spacing:-.035em;
+  font-size:clamp(3.5rem,2rem + 13vw,13rem); line-height:.82; margin:0;
   padding-top:clamp(1rem,3vw,2.5rem);
 }
 .ft__wrap{overflow:hidden}
@@ -535,7 +539,7 @@ html.js [data-reveal].in .shead__r,html.js .shead__r.in{ transform:scaleX(1); tr
   .hdr,.mq,.rail,.skip,.btn{display:none!important}
   [data-scheme]{ --bg:#fff!important; --fg:#000!important; --fg70:#333!important; --fg50:#555!important;
     --fg35:#777!important; --rule:#ccc!important; --rule-soft:#e5e5e5!important; --rule-hard:#999!important;
-    --surface:#fff!important; --surface2:#fafafa!important; --accent:#cdff65!important; }
+    --surface:#fff!important; --surface2:#fafafa!important; --accent:#EE4526!important; }
   body{background:#fff;color:#000}
   section{break-inside:avoid; padding-block:1.5rem!important}
   .band{padding-block:1.5rem!important}
@@ -567,7 +571,7 @@ html.js [data-reveal].in .shead__r,html.js .shead__r.in{ transform:scaleX(1); tr
 
 <header class="hdr" id="hdr">
   <div class="wrap hdr__in">
-    <a class="brand" href="#top"><i aria-hidden="true"></i><b>PlayAble</b></a>
+    <a class="brand" href="#top"><i aria-hidden="true"></i><b>ParaArena</b></a>
     <nav class="hdr__nav" aria-label="Sections">
       <a href="#idea">The idea</a>
       <a href="#features">Features</a>
@@ -587,7 +591,7 @@ html.js [data-reveal].in .shead__r,html.js .shead__r.in{ transform:scaleX(1); tr
   <div class="wrap">
     <p class="eyebrow" style="margin-bottom:clamp(1.5rem,4vw,3rem)">Concept proposal</p>
     <h1 class="hero__d">
-      <span>Play</span><span class="hero__mark">Able</span>
+      <span>Para</span><span class="hero__mark">Arena</span>
     </h1>
     <p class="hero__sub">Find. <em>/</em> Match. <em>/</em> Play.</p>
     <p class="lead hero__p">A platform where physically challenged people can find <strong>nearby players, accessible sports facilities, coaches, events, and compatible teams</strong> based on their abilities and preferences.</p>
@@ -1055,7 +1059,7 @@ html.js [data-reveal].in .shead__r,html.js .shead__r.in{ transform:scaleX(1); tr
 </section>
 
 <!-- ============================ 16 POSITIONING ============================ -->
-<section id="principles" class="band" data-scheme="lime" data-nav>
+<section id="principles" class="band" data-scheme="accent" data-nav>
   <div class="wrap">
     <div class="shead" data-reveal><span class="shead__n">16</span><i class="shead__r"></i><span class="shead__t eyebrow">Important for the branding</span></div>
     <div class="stmt" data-reveal>
@@ -1117,7 +1121,7 @@ html.js [data-reveal].in .shead__r,html.js .shead__r.in{ transform:scaleX(1); tr
 </section>
 
 <!-- ============================ MARQUEE 2 ============================ -->
-<div class="mq mq--rev" data-scheme="lime" aria-hidden="true">
+<div class="mq mq--rev" data-scheme="accent" aria-hidden="true">
   <div class="mq__t" id="mq2"></div>
 </div>
 
@@ -1161,7 +1165,7 @@ html.js [data-reveal].in .shead__r,html.js .shead__r.in{ transform:scaleX(1); tr
 
 <footer class="band band--tight ft__wrap" data-scheme="dark">
   <div class="wrap">
-    <p class="ft__mark">PlayAble</p>
+    <p class="ft__mark">ParaArena</p>
     <div class="hgrid hgrid--3 ft__grid">
       <div>
         <p class="label" style="margin-bottom:.9rem">The idea</p>
@@ -1183,7 +1187,7 @@ html.js [data-reveal].in .shead__r,html.js .shead__r.in{ transform:scaleX(1); tr
       </div>
     </div>
     <div class="ft__bot">
-      <span>PlayAble — Find. Match. Play.</span>
+      <span>ParaArena — Find. Match. Play.</span>
       <span>Concept presentation</span>
       <a href="#top">Back to top ↑</a>
     </div>
